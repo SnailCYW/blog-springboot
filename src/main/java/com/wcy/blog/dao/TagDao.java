@@ -1,7 +1,13 @@
 package com.wcy.blog.dao;
 
+import com.wcy.blog.dto.TagBackDTO;
 import com.wcy.blog.entity.Tag;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.wcy.blog.vo.ConditionVo;
+import org.apache.ibatis.annotations.Param;
+import org.springframework.security.access.prepost.PreAuthorize;
+
+import java.util.List;
 
 /**
 * @author Snail
@@ -10,6 +16,10 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 * @Entity com.wcy.blog.entity.Tag
 */
 public interface TagDao extends BaseMapper<Tag> {
+
+    public List<TagBackDTO> selectBackList(@Param("current") Long current,
+                                           @Param("size") Long size,
+                                           @Param("condition") ConditionVo conditionVo);
 
 }
 

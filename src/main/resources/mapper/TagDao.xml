@@ -5,14 +5,19 @@
 <mapper namespace="com.wcy.blog.dao.TagDao">
 
     <resultMap id="BaseResultMap" type="com.wcy.blog.entity.Tag">
-            <id property="id" column="id" jdbcType="INTEGER"/>
-            <result property="tagName" column="tag_name" jdbcType="VARCHAR"/>
-            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
-            <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <id property="id" column="id" jdbcType="INTEGER"/>
+        <result property="tagName" column="tag_name" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
     </resultMap>
 
-    <sql id="Base_Column_List">
-        id,tag_name,create_time,
-        update_time
-    </sql>
+    <!--public List<TagBackDTO> selectBackList(String keywords);-->
+    <select id="selectBackList" resultType="com.wcy.blog.dto.TagBackDTO">
+        SELECT b.count, a.create_time, a.id, a.tag_name
+        FROM tb_tag AS a
+            LEFT JOIN (SELECT tag_id, COUNT(*) AS `count` FROM tb_article_tag GROUP BY tag_id) AS b
+                ON a.id = b.tag_id;
+    </select>
+
+
 </mapper>
