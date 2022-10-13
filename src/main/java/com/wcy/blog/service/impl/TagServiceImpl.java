@@ -12,6 +12,7 @@ import com.wcy.blog.dao.TagDao;
 import com.wcy.blog.util.PageUtils;
 import com.wcy.blog.vo.ConditionVo;
 import com.wcy.blog.vo.PageResult;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,6 +27,7 @@ import java.util.List;
 * @description 针对表【tb_tag】的数据库操作Service实现
 * @createDate 2022-09-25 22:59:18
 */
+@Slf4j
 @Service
 public class TagServiceImpl extends ServiceImpl<TagDao, Tag> implements TagService{
 
@@ -46,7 +48,7 @@ public class TagServiceImpl extends ServiceImpl<TagDao, Tag> implements TagServi
         Integer count = tagDao.selectCount(new LambdaQueryWrapper<Tag>()
                 .like(StringUtils.isNotBlank(conditionVo.getKeywords()), Tag::getTagName, conditionVo.getKeywords()));
         if (count <= 0) return new PageResult<TagBackDTO>();
-
+        log.info(PageUtils.getCurrent()+"  "+PageUtils.getSize());
         List<TagBackDTO> tagBackDTOList =
                 tagDao.selectBackList(PageUtils.getCurrent(), PageUtils.getSize(), conditionVo);
         return new PageResult<TagBackDTO>(count, tagBackDTOList);
