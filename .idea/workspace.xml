@@ -5,9 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8cc005f7-2f92-48ab-8eba-9892376e1585" name="变更" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/wcy/blog/config/WebMvcConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/wcy/blog/util/CommonUtils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/wcy/blog/service/impl/TagServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/wcy/blog/service/impl/TagServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/wcy/blog/util/BeanCopyUtils.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -90,7 +88,7 @@
       <workItem from="1665214018777" duration="8387000" />
       <workItem from="1665230931197" duration="11031000" />
       <workItem from="1665385233771" duration="46000" />
-      <workItem from="1665669668573" duration="1094000" />
+      <workItem from="1665669668573" duration="4133000" />
     </task>
     <servers />
   </component>
