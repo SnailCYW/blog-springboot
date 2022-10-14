@@ -13,10 +13,30 @@
 
     <!--public List<TagBackDTO> selectBackList(String keywords);-->
     <select id="selectBackList" resultType="com.wcy.blog.dto.TagBackDTO">
-        SELECT b.count, a.create_time, a.id, a.tag_name
-        FROM tb_tag AS a
-            LEFT JOIN (SELECT tag_id, COUNT(*) AS `count` FROM tb_article_tag GROUP BY tag_id) AS b
-                ON a.id = b.tag_id;
+        SELECT t.id, tag_name, COUNT( tat.article_id ) AS article_count, t.create_time
+        FROM tb_tag t
+        LEFT JOIN tb_article_tag tat
+        ON t.id = tat.tag_id
+        <where>
+            <if test="condition.keywords != null">
+                tag_name like concat('%',#{condition.keywords},'%')
+            </if>
+        </where>
+        GROUP BY t.id
+        ORDER BY t.id DESC
+        LIMIT #{current},#{size}
+    </select>
+
+
+    <select id="searchList" resultType="com.wcy.blog.dto.TagDTO">
+        SELECT id, tag_name
+        from tb_tag
+        <where>
+            <if test="condition.keywords != null">
+                tag_name like concat('%', #{condition.keywords}, '%')
+            </if>
+        </where>
+        ORDER BY id DESC
     </select>
 
 

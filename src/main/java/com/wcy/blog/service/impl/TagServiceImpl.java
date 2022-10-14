@@ -9,6 +9,7 @@ import com.wcy.blog.dto.TagDTO;
 import com.wcy.blog.entity.Tag;
 import com.wcy.blog.service.TagService;
 import com.wcy.blog.dao.TagDao;
+import com.wcy.blog.util.BeanCopyUtils;
 import com.wcy.blog.util.PageUtils;
 import com.wcy.blog.vo.ConditionVo;
 import com.wcy.blog.vo.PageResult;
@@ -36,38 +37,31 @@ public class TagServiceImpl extends ServiceImpl<TagDao, Tag> implements TagServi
     private TagDao tagDao;
 
     @Override
-    public PageResult<TagDTO> TagList() {
+    public PageResult<TagDTO> listTags() {
         List<Tag> tagList = tagDao.selectList(null);
-        List<TagDTO> tagDTOList = copyList(tagList);
+        List<TagDTO> tagDTOList = BeanCopyUtils.copyList(tagList, TagDTO.class);
         Integer count = tagDao.selectCount(null);
         return new PageResult(count, tagDTOList);
     }
 
     @Override
-    public PageResult<TagBackDTO> TagListBack(ConditionVo conditionVo) {
+    public PageResult<TagBackDTO> listTagsBack(ConditionVo condition) {
         Integer count = tagDao.selectCount(new LambdaQueryWrapper<Tag>()
-                .like(StringUtils.isNotBlank(conditionVo.getKeywords()), Tag::getTagName, conditionVo.getKeywords()));
-        if (count <= 0) return new PageResult<TagBackDTO>();
+                .like(StringUtils.isNotBlank(condition.getKeywords()), Tag::getTagName, condition.getKeywords()));
+        if (count <= 0) {
+            return new PageResult<TagBackDTO>();
+        }
         log.info(PageUtils.getCurrent()+"  "+PageUtils.getSize());
-        List<TagBackDTO> tagBackDTOList =
-                tagDao.selectBackList(PageUtils.getCurrent(), PageUtils.getSize(), conditionVo);
+        List<TagBackDTO> tagBackDTOList = tagDao.selectBackList(PageUtils.getLimitCurrent(), PageUtils.getSize(), condition);
         return new PageResult<TagBackDTO>(count, tagBackDTOList);
     }
 
-
-    private List<TagDTO> copyList(List<Tag> tagList) {
-        ArrayList<TagDTO> tagDTOList = new ArrayList<>();
-        for (Tag tag : tagList) {
-            tagDTOList.add(copy(tag));
-        }
+    @Override
+    public List<TagDTO> searchTag(ConditionVo condition) {
+        List<TagDTO> tagDTOList = tagDao.searchList(condition);
         return tagDTOList;
     }
 
-    private TagDTO copy(Tag tag) {
-        TagDTO tagDTO = new TagDTO();
-        BeanUtils.copyProperties(tag, tagDTO);
-        return tagDTO;
-    }
 
 }
 

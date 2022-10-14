@@ -10,6 +10,8 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 
 /**
+ * 分页对象
+ *
  * @author 吴崇远
  * @version 1.0
  * @Date: 2022/10/08/17:12

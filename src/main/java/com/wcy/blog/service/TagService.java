@@ -16,7 +16,9 @@ import java.util.List;
 */
 public interface TagService extends IService<Tag> {
 
-    PageResult<TagDTO> TagList();
+    PageResult<TagDTO> listTags();
 
-    PageResult<TagBackDTO> TagListBack(ConditionVo conditionVo);
+    PageResult<TagBackDTO> listTagsBack(ConditionVo conditionVo);
+
+    List<TagDTO> searchTag(ConditionVo conditionVo);
 }

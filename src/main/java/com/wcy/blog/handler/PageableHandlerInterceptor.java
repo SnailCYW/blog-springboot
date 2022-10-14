@@ -25,6 +25,7 @@ public class PageableHandlerInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String currentPage = request.getParameter(CURRENT);
+        System.out.println(currentPage);
         String pageSize = Optional.ofNullable(request.getParameter(SIZE)).orElse(DEFAULT_SIZE);
         if (!StringUtils.isNullOrEmpty(currentPage)) {
             PageUtils.setCurrentPage(new Page<>(Long.parseLong(currentPage), Long.parseLong(pageSize)));
