@@ -1,7 +1,15 @@
 package com.wcy.blog.service;
 
+import com.wcy.blog.dto.CategoryBackDTO;
+import com.wcy.blog.dto.CategoryDTO;
+import com.wcy.blog.dto.CategoryOptionDTO;
 import com.wcy.blog.entity.Category;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.wcy.blog.vo.CategoryVO;
+import com.wcy.blog.vo.ConditionVo;
+import com.wcy.blog.vo.PageResult;
+
+import java.util.List;
 
 /**
 * @author Snail
@@ -10,4 +18,13 @@ import com.baomidou.mybatisplus.extension.service.IService;
 */
 public interface CategoryService extends IService<Category> {
 
+    PageResult<CategoryBackDTO> listCategoriesBack(ConditionVo condition);
+
+    List<CategoryOptionDTO> searchCategories(ConditionVo condition);
+
+    PageResult<CategoryDTO> listCategories();
+
+    void addOrUpdateCategory(CategoryVO categoryVO);
+
+    void deleteCategories(List<Integer> categoryIdList);
 }

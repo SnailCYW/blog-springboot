@@ -5,14 +5,35 @@
 <mapper namespace="com.wcy.blog.dao.CategoryDao">
 
     <resultMap id="BaseResultMap" type="com.wcy.blog.entity.Category">
-            <id property="id" column="id" jdbcType="INTEGER"/>
-            <result property="categoryName" column="category_name" jdbcType="VARCHAR"/>
-            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
-            <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <id property="id" column="id" jdbcType="INTEGER"/>
+        <result property="categoryName" column="category_name" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
     </resultMap>
 
-    <sql id="Base_Column_List">
-        id,category_name,create_time,
-        update_time
-    </sql>
+
+    <!--List<Category> listCategoriesBack(@Param("current") Long current,
+                                      @Param("size") Long size,
+                                      @Param("condition") ConditionVo condition);-->
+    <select id="listCategoriesBack" resultType="com.wcy.blog.dto.CategoryBackDTO">
+        SELECT COUNT(a.category_id) AS article_count, category_name, create_time, tc.id
+        FROM tb_category tc
+        LEFT JOIN (SELECT id, category_id FROM tb_article) a
+        ON tc.id = a.category_id
+        GROUP BY tc.id
+        ORDER BY tc.id DESC
+        LIMIT #{current},#{size}
+    </select>
+
+    <!--List<CategoryDTO> listCategories(@Param("current") Long current,
+                                     @Param("size") Long size);-->
+    <select id="listCategories" resultType="com.wcy.blog.dto.CategoryDTO">
+        SELECT COUNT(a.category_id) AS article_count, category_name, create_time, tc.id
+        FROM tb_category tc
+                 LEFT JOIN (SELECT id, category_id FROM tb_article WHERE is_delete = 0 AND `status` = 1) a
+                           ON tc.id = a.category_id
+        GROUP BY tc.id
+        ORDER BY tc.id DESC
+        LIMIT #{current},#{size}
+    </select>
 </mapper>

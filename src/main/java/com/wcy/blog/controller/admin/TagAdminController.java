@@ -1,4 +1,4 @@
-package com.wcy.blog.controller;
+package com.wcy.blog.controller.admin;
 
 import com.wcy.blog.dto.TagBackDTO;
 import com.wcy.blog.dto.TagDTO;
@@ -7,12 +7,13 @@ import com.wcy.blog.service.TagService;
 import com.wcy.blog.vo.ConditionVo;
 import com.wcy.blog.vo.PageResult;
 import com.wcy.blog.vo.Result;
+import com.wcy.blog.vo.TagVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -22,16 +23,10 @@ import java.util.List;
  */
 @Api(tags = "标签模块")
 @RestController
-public class TagController {
+public class TagAdminController {
 
     @Autowired
     private TagService tagService;
-
-    @ApiOperation(value = "查询标签列表", notes = "用户页面查询标签列表")
-    @GetMapping("/tags")
-    public Result<PageResult<TagDTO>> listTags() {
-        return Result.ok(tagService.listTags());
-    }
 
     @ApiOperation(value = "后台查询标签列表", notes = "后台页面查询标签列表")
     @GetMapping("/admin/tags")
@@ -43,6 +38,20 @@ public class TagController {
     @GetMapping("/admin/tags/search")
     public Result<List<TagDTO>> searchTag(ConditionVo conditionVo) {
         return Result.ok(tagService.searchTag(conditionVo));
+    }
+
+    @ApiOperation(value = "添加或修改标签", notes = "添加或修改标签")
+    @PostMapping("/admin/tags")
+    public Result<Object> addOrModifyTags(@Valid @RequestBody TagVO tagVO) {
+        tagService.addOrModifyTags(tagVO);
+        return Result.ok();
+    }
+
+    @ApiOperation(value = "删除标签", notes = "删除标签")
+    @DeleteMapping("/admin/tags")
+    public Result<Object> deleteTags(@Valid @RequestBody List<Integer> tagIdList) {
+        tagService.deleteTags(tagIdList);
+        return Result.ok();
     }
 
 }

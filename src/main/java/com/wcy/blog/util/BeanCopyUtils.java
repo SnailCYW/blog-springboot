@@ -20,7 +20,7 @@ public class BeanCopyUtils {
      * @param target 目标类
      * @return {@link T} 目标实例
      */
-    public static <T> T copy(Object source, Class<T> target) {
+    public static <T> T copyObject(Object source, Class<T> target) {
         T result = null;
         try {
             result = target.newInstance();
@@ -44,7 +44,7 @@ public class BeanCopyUtils {
         List<T> result = new ArrayList<>();
         if (null != sourceList && sourceList.size() > 0) {
             for (Object obj : sourceList) {
-                result.add(copy(obj, clazz));
+                result.add(copyObject(obj, clazz));
             }
         }
         return result;
