@@ -5,26 +5,341 @@
 <mapper namespace="com.wcy.blog.dao.ArticleDao">
 
     <resultMap id="BaseResultMap" type="com.wcy.blog.entity.Article">
-            <id property="id" column="id" jdbcType="INTEGER"/>
-            <result property="userId" column="user_id" jdbcType="INTEGER"/>
-            <result property="categoryId" column="category_id" jdbcType="INTEGER"/>
-            <result property="articleCover" column="article_cover" jdbcType="VARCHAR"/>
-            <result property="articleTitle" column="article_title" jdbcType="VARCHAR"/>
-            <result property="articleContent" column="article_content" jdbcType="VARCHAR"/>
-            <result property="type" column="type" jdbcType="TINYINT"/>
-            <result property="originalUrl" column="original_url" jdbcType="VARCHAR"/>
-            <result property="isTop" column="is_top" jdbcType="TINYINT"/>
-            <result property="isDelete" column="is_delete" jdbcType="TINYINT"/>
-            <result property="status" column="status" jdbcType="TINYINT"/>
-            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
-            <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <id property="id" column="id" jdbcType="INTEGER"/>
+        <result property="userId" column="user_id" jdbcType="INTEGER"/>
+        <result property="categoryId" column="category_id" jdbcType="INTEGER"/>
+        <result property="articleCover" column="article_cover" jdbcType="VARCHAR"/>
+        <result property="articleTitle" column="article_title" jdbcType="VARCHAR"/>
+        <result property="articleContent" column="article_content" jdbcType="VARCHAR"/>
+        <result property="type" column="type" jdbcType="TINYINT"/>
+        <result property="originalUrl" column="original_url" jdbcType="VARCHAR"/>
+        <result property="isTop" column="is_top" jdbcType="TINYINT"/>
+        <result property="isDelete" column="is_delete" jdbcType="TINYINT"/>
+        <result property="status" column="status" jdbcType="TINYINT"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
     </resultMap>
 
-    <sql id="Base_Column_List">
-        id,user_id,category_id,
-        article_cover,article_title,article_content,
-        type,original_url,is_top,
-        is_delete,status,create_time,
-        update_time
-    </sql>
+    <resultMap id="articleBackResultMap" type="com.wcy.blog.dto.ArticleBackDTO">
+        <id column="id" property="id"/>
+        <result column="article_cover" property="articleCover"/>
+        <result column="article_title" property="articleTitle"/>
+        <result column="create_time" property="createTime"/>
+        <result column="type" property="type"/>
+        <result column="is_top" property="isTop"/>
+        <result column="is_delete" property="isDelete"/>
+        <result column="status" property="status"/>
+        <result column="category_name" property="categoryName"/>
+        <collection property="tagDTOList" ofType="com.wcy.blog.dto.TagDTO">
+            <id column="tag_id" property="id"/>
+            <result column="tag_name" property="tagName"/>
+        </collection>
+    </resultMap>
+
+    <resultMap id="getArticleBackByIdMap" type="com.wcy.blog.vo.ArticleVo">
+        <id column="id" property="id"/>
+        <result column="article_content" property="articleContent"/>
+        <result column="article_cover" property="articleCover"/>
+        <result column="article_title" property="articleTitle"/>
+        <result column="category_name" property="categoryName"/>
+        <result column="is_top" property="isTop"/>
+        <result column="original_url" property="originalUrl"/>
+        <result column="status" property="status"/>
+        <result column="type" property="type"/>
+        <collection property="tagNameList" ofType="string">
+            <result column="tag_name"/>
+        </collection>
+    </resultMap>
+
+    <resultMap id="homeArticlesMap" type="com.wcy.blog.dto.ArticleHomeDTO">
+        <id column="id" property="id"/>
+        <result column="article_content" property="articleContent"/>
+        <result column="article_cover" property="articleCover"/>
+        <result column="article_title" property="articleTitle"/>
+        <result column="category_id" property="categoryId"/>
+        <result column="category_name" property="categoryName"/>
+        <result column="create_time" property="createTime"/>
+        <result column="id" property="id"/>
+        <result column="is_top" property="isTop"/>
+        <result column="type" property="type"/>
+        <collection property="tagDTOList" ofType="com.wcy.blog.dto.TagDTO">
+            <id column="tag_id" property="id"/>
+            <result column="tag_name" property="tagName"/>
+        </collection>
+    </resultMap>
+
+    <resultMap id="listArticleByConditionMap" type="com.wcy.blog.dto.ArticlePreviewDTO">
+        <id column="id" property="id"/>
+        <result column="article_cover" property="articleCover"/>
+        <result column="article_title" property="articleTitle"/>
+        <result column="category_id" property="categoryId"/>
+        <result column="category_name" property="categoryName"/>
+        <result column="create_time" property="createTime"/>
+        <result column="id" property="id"/>
+        <collection property="tagDTOList" ofType="com.wcy.blog.dto.TagDTO">
+            <id column="tag_id" property="id"/>
+            <result column="tag_name" property="tagName"/>
+        </collection>
+    </resultMap>
+
+    <resultMap id="getArticleByIdMap" type="com.wcy.blog.dto.ArticleDTO">
+        <id column="id" property="id"/>
+        <result column="article_content" property="articleContent"/>
+        <result column="article_cover" property="articleCover"/>
+        <result column="article_title" property="articleTitle"/>
+        <result column="category_id" property="categoryId"/>
+        <result column="category_name" property="categoryName"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="original_url" property="originalUrl"/>
+        <result column="id" property="id"/>
+        <result column="type" property="type"/>
+        <collection property="tagDTOList" ofType="com.wcy.blog.dto.TagDTO">
+            <id column="tag_id" property="id"/>
+            <result column="tag_name" property="tagName"/>
+        </collection>
+    </resultMap>
+
+    <resultMap id="selectRecommendArticlesMap" type="com.wcy.blog.dto.ArticleRecommendDTO">
+        <id column="id" property="id"/>
+        <result column="article_cover" property="articleCover"/>
+        <result column="article_title" property="articleTitle"/>
+        <result column="create_time" property="createTime"/>
+    </resultMap>
+
+
+    <select id="articleBackCount" resultType="java.lang.Integer">
+        select count(distinct ta.id)
+        from tb_article ta
+        left join tb_article_tag tat on ta.id = tat.article_id
+        <where>
+            is_delete = #{condition.isDelete}
+            <if test="condition.keywords != null">
+                and article_title like concat('%', #{condition.keywords}, '%')
+            </if>
+            <if test="condition.status != null">
+                and status = #{condition.status}
+            </if>
+            <if test="condition.categoryId != null">
+                and category_id = #{condition.categoryId}
+            </if>
+            <if test="condition.type != null">
+                and type = #{condition.type}
+            </if>
+            <if test="condition.tagId != null">
+                and tat.tag_id = #{condition.tagId}
+            </if>
+        </where>
+    </select>
+
+
+    <select id="listArticleBack" resultMap="articleBackResultMap">
+        SELECT
+        article_cover,
+        article_title,
+        category_name,
+        ta.create_time,
+        ta.id,
+        is_delete,
+        is_top,
+        `status`,
+        tt.id tag_id,
+        tt.tag_name,
+        `type`
+        FROM (
+        SELECT
+        article_cover,
+        article_title,
+        category_id,
+        create_time,
+        id,
+        is_delete,
+        is_top,
+        `status`,
+        `type`
+        FROM tb_article
+        <where>
+            is_delete = #{condition.isDelete}
+            <if test="condition.keywords != null">
+                and article_title like concat('%', #{condition.keywords}, '%')
+            </if>
+            <if test="condition.status != null">
+                and status = #{condition.status}
+            </if>
+            <if test="condition.categoryId != null">
+                and category_id = #{condition.categoryId}
+            </if>
+            <if test="condition.type != null">
+                and type = #{condition.type}
+            </if>
+            <if test="condition.tagId != null">
+                and id in
+                (
+                select article_id
+                from tb_article_tag
+                where tag_id = #{condition.tagId}
+                )
+            </if>
+        </where>
+        limit #{current}, #{size}
+        ) ta
+        LEFT JOIN tb_category tc ON ta.category_id = tc.id
+        LEFT JOIN tb_article_tag tat ON ta.id = tat.article_id
+        LEFT JOIN tb_tag tt ON tat.tag_id = tt.id
+        order by is_top desc, ta.id desc
+    </select>
+
+    <select id="getArticleBackById" resultMap="getArticleBackByIdMap">
+        SELECT article_content,
+               article_cover,
+               article_title,
+               tc.category_name,
+               ta.id,
+               is_top,
+               original_url,
+               `status`,
+               tt.tag_name tag_name,
+               `type`
+        FROM (
+                 SELECT article_content,
+                        article_cover,
+                        article_title,
+                        category_id,
+                        id,
+                        is_top,
+                        original_url,
+                        `status`,
+                        `type`
+                 FROM tb_article
+                 where id = #{articleId}
+             ) ta
+                 LEFT JOIN tb_category tc ON ta.category_id = tc.id
+                 LEFT JOIN tb_article_tag tat ON ta.id = tat.article_id
+                 LEFT JOIN tb_tag tt ON tat.tag_id = tt.id
+    </select>
+
+
+    <select id="listHomeArticles" resultMap="homeArticlesMap">
+        SELECT article_content,
+               article_cover,
+               article_title,
+               category_id,
+               tc.category_name,
+               ta.create_time,
+               ta.id,
+               is_top,
+               tt.id tag_id,
+               tt.tag_name,
+               `type`
+        FROM (
+                 SELECT article_content,
+                        article_cover,
+                        article_title,
+                        category_id,
+                        create_time,
+                        id,
+                        is_top,
+                        `type`
+                 FROM tb_article
+                 WHERE is_delete = 0
+                   AND `status` = 1
+                 LIMIT #{current}, #{size}
+             ) ta
+                 LEFT JOIN tb_category tc ON ta.category_id = tc.id
+                 LEFT JOIN tb_article_tag tat ON ta.id = tat.article_id
+                 LEFT JOIN tb_tag tt ON tat.tag_id = tt.id
+    </select>
+
+    <select id="listArticleByCondition" resultMap="listArticleByConditionMap">
+        SELECT article_cover,
+        article_title,
+        category_id,
+        tc.category_name,
+        ta.create_time,
+        ta.id,
+        tt.id tag_id,
+        tt.tag_name
+        FROM (
+        SELECT article_cover,
+        article_title,
+        category_id,
+        create_time,
+        id
+        FROM tb_article
+        <where>
+            1 = 1
+            <if test="condition.categoryId != null">
+                AND category_id = #{condition.categoryId}
+            </if>
+            <if test="condition.tagId != null">
+                AND id IN (
+                SELECT article_id
+                FROM tb_article_tag
+                WHERE tag_id = #{condition.tagId}
+                )
+            </if>
+        </where>
+        AND is_delete = 0
+        AND `status` = 1
+        LIMIT #{current}, #{size}
+        ) ta
+        LEFT JOIN tb_category tc ON ta.category_id = tc.id
+        LEFT JOIN tb_article_tag tat ON ta.id = tat.article_id
+        LEFT JOIN tb_tag tt ON tat.tag_id = tt.id
+    </select>
+
+    <select id="getArticleById" resultMap="getArticleByIdMap">
+        SELECT article_content,
+               article_cover,
+               article_title,
+               category_id,
+               tc.category_name,
+               ta.create_time,
+               ta.update_time,
+               ta.id,
+               original_url,
+               tt.id       tag_id,
+               tt.tag_name tag_name,
+               `type`
+        FROM (
+                 SELECT article_content,
+                        article_cover,
+                        article_title,
+                        category_id,
+                        create_time,
+                        update_time,
+                        id,
+                        is_top,
+                        original_url,
+                        `status`,
+                        `type`
+                 FROM tb_article
+                 WHERE id = #{articleId}
+                   AND `status` = 1
+                   AND is_delete = 0
+             ) ta
+                 LEFT JOIN tb_category tc ON ta.category_id = tc.id
+                 LEFT JOIN tb_article_tag tat ON ta.id = tat.article_id
+                 LEFT JOIN tb_tag tt ON tat.tag_id = tt.id
+    </select>
+
+    <select id="selectRecommendArticles" resultMap="selectRecommendArticlesMap">
+        SELECT article_cover,
+               article_title,
+               ta.create_time,
+               ta.id
+        FROM tb_article ta
+        WHERE is_delete = 0
+          AND `status` = 1
+          AND id != #{articleId}
+          AND id IN (
+            SELECT DISTINCT article_id
+            FROM tb_article_tag
+            WHERE tag_id IN (
+                SELECT tag_id
+                FROM tb_article_tag
+                WHERE article_id = #{articleId}
+            )
+        )
+    </select>
 </mapper>

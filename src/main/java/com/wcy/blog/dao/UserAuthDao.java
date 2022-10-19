@@ -1,7 +1,13 @@
 package com.wcy.blog.dao;
 
+import com.wcy.blog.dto.UserBackDTO;
 import com.wcy.blog.entity.UserAuth;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.wcy.blog.vo.ConditionVo;
+import com.wcy.blog.vo.PageResult;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
 * @author Snail
@@ -11,6 +17,9 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 */
 public interface UserAuthDao extends BaseMapper<UserAuth> {
 
+    List<UserBackDTO> listUsersBack(@Param("current") Long current,
+                                    @Param("size") Long size,
+                                    @Param("condition") ConditionVo condition);
 }
 
 

@@ -5,17 +5,35 @@
 <mapper namespace="com.wcy.blog.dao.UserAuthDao">
 
     <resultMap id="BaseResultMap" type="com.wcy.blog.entity.UserAuth">
-            <id property="id" column="id" jdbcType="INTEGER"/>
-            <result property="userInfoId" column="user_info_id" jdbcType="INTEGER"/>
-            <result property="username" column="username" jdbcType="VARCHAR"/>
-            <result property="password" column="password" jdbcType="VARCHAR"/>
-            <result property="loginType" column="login_type" jdbcType="TINYINT"/>
-            <result property="ipAddress" column="ip_address" jdbcType="VARCHAR"/>
-            <result property="ipSource" column="ip_source" jdbcType="VARCHAR"/>
-            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
-            <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
-            <result property="lastLoginTime" column="last_login_time" jdbcType="TIMESTAMP"/>
+        <id property="id" column="id" jdbcType="INTEGER"/>
+        <result property="userInfoId" column="user_info_id" jdbcType="INTEGER"/>
+        <result property="username" column="username" jdbcType="VARCHAR"/>
+        <result property="password" column="password" jdbcType="VARCHAR"/>
+        <result property="loginType" column="login_type" jdbcType="TINYINT"/>
+        <result property="ipAddress" column="ip_address" jdbcType="VARCHAR"/>
+        <result property="ipSource" column="ip_source" jdbcType="VARCHAR"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <result property="lastLoginTime" column="last_login_time" jdbcType="TIMESTAMP"/>
     </resultMap>
+
+    <resultMap id="ListUsersBackMap" type="com.wcy.blog.dto.UserBackDTO">
+        <id property="id" column="id" jdbcType="INTEGER"/>
+        <result property="createTime" column="create_time"/>
+        <result property="ipAddress" column="ip_address"/>
+        <result property="ipSource" column="ip_source"/>
+        <result property="lastLoginTime" column="last_login_time"/>
+        <result property="loginType" column="login_type"/>
+        <result property="userInfoId" column="user_info_id"/>
+        <result property="avatar" column="avatar"/>
+        <result property="isDisable" column="is_disable"/>
+        <result property="nickname" column="nickname"/>
+        <collection property="roleList" ofType="com.wcy.blog.dto.UserRoleDTO">
+            <result column="role_id" property="id"/>
+            <result column="role_name" property="roleName"/>
+        </collection>
+    </resultMap>
+
 
     <sql id="Base_Column_List">
         id,user_info_id,username,
@@ -23,4 +41,36 @@
         ip_source,create_time,update_time,
         last_login_time
     </sql>
+    <select id="listUsersBack" resultMap="ListUsersBackMap">
+        SELECT role_name,
+               tua.id,
+               tua.create_time,
+               ip_address,
+               ip_source,
+               last_login_time,
+               login_type,
+               user_info_id,
+               role_id,
+               avatar,
+               tui.is_disable,
+               nickname
+        FROM tb_user_auth tua
+        LEFT JOIN tb_user_role tur ON user_id = tua.id
+        LEFT JOIN (
+            SELECT id, nickname, is_disable, avatar
+            FROM tb_user_info
+            <where>
+                <if test="condition.keywords != null">
+                    nickname LIKE concat('%',#{condition.keywords},'%')
+                </if>
+            </where>
+        ) tui ON tui.id = user_info_id
+        LEFT JOIN tb_role tr ON tr.id = tur.role_id
+        <where>
+            <if test="condition.type != null">
+                login_type = #{condition.type}
+            </if>
+        </where>
+        LIMIT #{current}, #{size}
+    </select>
 </mapper>

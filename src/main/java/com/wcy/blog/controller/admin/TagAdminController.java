@@ -23,32 +23,33 @@ import java.util.List;
  */
 @Api(tags = "标签模块")
 @RestController
+@RequestMapping("/admin/tags")
 public class TagAdminController {
 
     @Autowired
     private TagService tagService;
 
     @ApiOperation(value = "后台查询标签列表", notes = "后台页面查询标签列表")
-    @GetMapping("/admin/tags")
+    @GetMapping()
     public Result<PageResult<TagBackDTO>> listTagsBack(ConditionVo conditionVo) {
         return Result.ok(tagService.listTagsBack(conditionVo));
     }
 
     @ApiOperation(value = "搜索文章标签", notes = "搜索文章标签")
-    @GetMapping("/admin/tags/search")
+    @GetMapping("/search")
     public Result<List<TagDTO>> searchTag(ConditionVo conditionVo) {
         return Result.ok(tagService.searchTag(conditionVo));
     }
 
     @ApiOperation(value = "添加或修改标签", notes = "添加或修改标签")
-    @PostMapping("/admin/tags")
+    @PostMapping()
     public Result<Object> addOrModifyTags(@Valid @RequestBody TagVO tagVO) {
         tagService.addOrModifyTags(tagVO);
         return Result.ok();
     }
 
     @ApiOperation(value = "删除标签", notes = "删除标签")
-    @DeleteMapping("/admin/tags")
+    @DeleteMapping()
     public Result<Object> deleteTags(@Valid @RequestBody List<Integer> tagIdList) {
         tagService.deleteTags(tagIdList);
         return Result.ok();

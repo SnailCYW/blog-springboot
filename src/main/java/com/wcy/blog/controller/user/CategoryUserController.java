@@ -23,6 +23,7 @@ import java.util.List;
  */
 @Api(tags = "分类模块")
 @RestController
+@RequestMapping("/categories")
 public class CategoryUserController {
 
     @Autowired
@@ -30,7 +31,7 @@ public class CategoryUserController {
 
 
     @ApiOperation(value = "查看分类列表", notes = "查看分类列表")
-    @GetMapping("/categories")
+    @GetMapping()
     public Result<PageResult<CategoryDTO>> listCategories() {
         return Result.ok(categoryService.listCategories());
     }

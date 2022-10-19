@@ -5,27 +5,47 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8cc005f7-2f92-48ab-8eba-9892376e1585" name="变更" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/wcy/blog/config/MybatisPlusConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/wcy/blog/controller/CategoryController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/wcy/blog/dto/CategoryBackDTO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/wcy/blog/dto/CategoryDTO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/wcy/blog/dto/CategoryOptionDTO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/wcy/blog/enums/ZoneEnum.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/wcy/blog/exception/BizException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/wcy/blog/handler/MyMetaObjectHandler.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/wcy/blog/vo/CategoryVO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/wcy/blog/vo/TagVO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/wcy/blog/controller/TagController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/wcy/blog/controller/TagController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/wcy/blog/dao/CategoryDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/wcy/blog/dao/CategoryDao.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/wcy/blog/entity/Category.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/wcy/blog/entity/Category.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/wcy/blog/entity/Tag.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/wcy/blog/entity/Tag.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/wcy/blog/service/CategoryService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/wcy/blog/service/CategoryService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/wcy/blog/service/TagService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/wcy/blog/service/TagService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/wcy/blog/service/impl/CategoryServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/wcy/blog/service/impl/CategoryServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/wcy/blog/service/impl/TagServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/wcy/blog/service/impl/TagServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/wcy/blog/util/BeanCopyUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/wcy/blog/util/BeanCopyUtils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/wcy/blog/vo/PageResult.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/wcy/blog/vo/PageResult.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/mapper/CategoryDao.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mapper/CategoryDao.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/wcy/blog/config/RedisConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/wcy/blog/constant/RedisPrefixConst.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/wcy/blog/controller/admin/ArticleAdminController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/wcy/blog/controller/admin/UserAdminController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/wcy/blog/controller/user/ArticleUserController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/wcy/blog/dto/ArchiveDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/wcy/blog/dto/ArticleBackDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/wcy/blog/dto/ArticleDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/wcy/blog/dto/ArticleHomeDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/wcy/blog/dto/ArticlePaginationDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/wcy/blog/dto/ArticlePreviewDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/wcy/blog/dto/ArticlePreviewListDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/wcy/blog/dto/ArticleRecommendDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/wcy/blog/dto/ArticleSearchDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/wcy/blog/dto/UserAreaDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/wcy/blog/dto/UserBackDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/wcy/blog/dto/UserRoleDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/wcy/blog/enums/ArticleStatusEnum.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/wcy/blog/enums/SearchModeEnum.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/wcy/blog/enums/UserAreaTypeEnum.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/wcy/blog/service/RedisService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/wcy/blog/service/impl/RedisServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/wcy/blog/strategy/SearchStrategy.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/wcy/blog/strategy/context/SearchStrategyContext.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/wcy/blog/strategy/impl/MysqlSearchStrategyImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/wcy/blog/vo/ArticleVo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/wcy/blog/controller/admin/CategoryAdminController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/wcy/blog/controller/admin/CategoryAdminController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/wcy/blog/controller/admin/TagAdminController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/wcy/blog/controller/admin/TagAdminController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/wcy/blog/controller/user/CategoryUserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/wcy/blog/controller/user/CategoryUserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/wcy/blog/controller/user/TagUserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/wcy/blog/controller/user/TagUserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/wcy/blog/dao/ArticleDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/wcy/blog/dao/ArticleDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/wcy/blog/dao/UserAuthDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/wcy/blog/dao/UserAuthDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/wcy/blog/entity/Article.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/wcy/blog/entity/Article.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/wcy/blog/enums/StatusCodeEnum.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/wcy/blog/enums/StatusCodeEnum.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/wcy/blog/service/ArticleService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/wcy/blog/service/ArticleService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/wcy/blog/service/UserAuthService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/wcy/blog/service/UserAuthService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/wcy/blog/service/impl/ArticleServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/wcy/blog/service/impl/ArticleServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/wcy/blog/service/impl/UserAuthServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/wcy/blog/service/impl/UserAuthServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/wcy/blog/vo/ConditionVo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/wcy/blog/vo/ConditionVo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/mapper/ArticleDao.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mapper/ArticleDao.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/mapper/UserAuthDao.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mapper/UserAuthDao.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -35,7 +55,9 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="Interface" />
         <option value="Class" />
+        <option value="Enum" />
       </list>
     </option>
   </component>
@@ -70,12 +92,21 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/java/com/wcy/blog/controller/user" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="restartRequiresConfirmation" value="false" />
     <property name="settings.editor.selected.configurable" value="MavenSettings" />
   </component>
   <component name="ReactorSettings">
     <option name="notificationShown" value="true" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.wcy.blog.enums" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\WCY\Desktop\git\blog-springboot\src\main\java\com\wcy\blog\controller\user" />
+    </key>
   </component>
   <component name="RunManager">
     <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
@@ -111,7 +142,11 @@
       <workItem from="1665385233771" duration="46000" />
       <workItem from="1665669668573" duration="16932000" />
       <workItem from="1665732075101" duration="4341000" />
-      <workItem from="1665737453509" duration="12133000" />
+      <workItem from="1665737453509" duration="16133000" />
+      <workItem from="1665996783193" duration="705000" />
+      <workItem from="1666055902082" duration="24133000" />
+      <workItem from="1666094953001" duration="13891000" />
+      <workItem from="1666180884138" duration="6364000" />
     </task>
     <servers />
   </component>
@@ -131,11 +166,11 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="2324" y="311" key="#com.intellij.ide.util.MemberChooser" timestamp="1665752487204">
+    <state x="2324" y="311" key="#com.intellij.ide.util.MemberChooser" timestamp="1666186884258">
       <screen x="1920" y="0" width="1080" height="1920" />
     </state>
     <state x="718" y="175" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1080/1920.0.1080.1920@0.0.1920.1080" timestamp="1665738010660" />
-    <state x="2324" y="311" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1080/1920.0.1080.1920@1920.0.1080.1920" timestamp="1665752487204" />
+    <state x="2324" y="311" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1080/1920.0.1080.1920@1920.0.1080.1920" timestamp="1666186884258" />
     <state x="655" y="169" key="#xdebugger.evaluate" timestamp="1665305262368">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
@@ -148,46 +183,46 @@
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="687" y="234" key="FileChooserDialogImpl/0.0.1920.1080/1920.0.1080.1920@0.0.1920.1080" timestamp="1665214906037" />
-    <state width="1867" height="873" key="GridCell.Tab.0.bottom" timestamp="1665754082501">
-      <screen x="0" y="0" width="1920" height="1080" />
+    <state width="1027" height="1561" key="GridCell.Tab.0.bottom" timestamp="1666186060772">
+      <screen x="1920" y="0" width="1080" height="1920" />
     </state>
-    <state width="1867" height="873" key="GridCell.Tab.0.bottom/0.0.1920.1080/1920.0.1080.1920@0.0.1920.1080" timestamp="1665754082501" />
-    <state width="1867" height="880" key="GridCell.Tab.0.bottom/0.0.1920.1080/1920.0.1080.1920@1920.0.1080.1920" timestamp="1665754045414" />
-    <state width="1867" height="873" key="GridCell.Tab.0.center" timestamp="1665754082501">
-      <screen x="0" y="0" width="1920" height="1080" />
+    <state width="1867" height="880" key="GridCell.Tab.0.bottom/0.0.1920.1080/1920.0.1080.1920@0.0.1920.1080" timestamp="1666154716398" />
+    <state width="1027" height="1561" key="GridCell.Tab.0.bottom/0.0.1920.1080/1920.0.1080.1920@1920.0.1080.1920" timestamp="1666186060772" />
+    <state width="1027" height="1561" key="GridCell.Tab.0.center" timestamp="1666186060772">
+      <screen x="1920" y="0" width="1080" height="1920" />
     </state>
-    <state width="1867" height="873" key="GridCell.Tab.0.center/0.0.1920.1080/1920.0.1080.1920@0.0.1920.1080" timestamp="1665754082501" />
-    <state width="1867" height="880" key="GridCell.Tab.0.center/0.0.1920.1080/1920.0.1080.1920@1920.0.1080.1920" timestamp="1665754045414" />
-    <state width="1867" height="873" key="GridCell.Tab.0.left" timestamp="1665754082501">
-      <screen x="0" y="0" width="1920" height="1080" />
+    <state width="1867" height="880" key="GridCell.Tab.0.center/0.0.1920.1080/1920.0.1080.1920@0.0.1920.1080" timestamp="1666154716398" />
+    <state width="1027" height="1561" key="GridCell.Tab.0.center/0.0.1920.1080/1920.0.1080.1920@1920.0.1080.1920" timestamp="1666186060772" />
+    <state width="1027" height="1561" key="GridCell.Tab.0.left" timestamp="1666186060772">
+      <screen x="1920" y="0" width="1080" height="1920" />
     </state>
-    <state width="1867" height="873" key="GridCell.Tab.0.left/0.0.1920.1080/1920.0.1080.1920@0.0.1920.1080" timestamp="1665754082501" />
-    <state width="1867" height="880" key="GridCell.Tab.0.left/0.0.1920.1080/1920.0.1080.1920@1920.0.1080.1920" timestamp="1665754045414" />
-    <state width="1867" height="873" key="GridCell.Tab.0.right" timestamp="1665754082501">
-      <screen x="0" y="0" width="1920" height="1080" />
+    <state width="1867" height="880" key="GridCell.Tab.0.left/0.0.1920.1080/1920.0.1080.1920@0.0.1920.1080" timestamp="1666154716398" />
+    <state width="1027" height="1561" key="GridCell.Tab.0.left/0.0.1920.1080/1920.0.1080.1920@1920.0.1080.1920" timestamp="1666186060772" />
+    <state width="1027" height="1561" key="GridCell.Tab.0.right" timestamp="1666186060772">
+      <screen x="1920" y="0" width="1080" height="1920" />
     </state>
-    <state width="1867" height="873" key="GridCell.Tab.0.right/0.0.1920.1080/1920.0.1080.1920@0.0.1920.1080" timestamp="1665754082501" />
-    <state width="1867" height="880" key="GridCell.Tab.0.right/0.0.1920.1080/1920.0.1080.1920@1920.0.1080.1920" timestamp="1665754045414" />
-    <state width="1867" height="873" key="GridCell.Tab.1.bottom" timestamp="1665754082502">
-      <screen x="0" y="0" width="1920" height="1080" />
+    <state width="1867" height="880" key="GridCell.Tab.0.right/0.0.1920.1080/1920.0.1080.1920@0.0.1920.1080" timestamp="1666154716398" />
+    <state width="1027" height="1561" key="GridCell.Tab.0.right/0.0.1920.1080/1920.0.1080.1920@1920.0.1080.1920" timestamp="1666186060772" />
+    <state width="1027" height="1561" key="GridCell.Tab.1.bottom" timestamp="1666186060772">
+      <screen x="1920" y="0" width="1080" height="1920" />
     </state>
-    <state width="1867" height="873" key="GridCell.Tab.1.bottom/0.0.1920.1080/1920.0.1080.1920@0.0.1920.1080" timestamp="1665754082502" />
-    <state width="1867" height="880" key="GridCell.Tab.1.bottom/0.0.1920.1080/1920.0.1080.1920@1920.0.1080.1920" timestamp="1665754045414" />
-    <state width="1867" height="873" key="GridCell.Tab.1.center" timestamp="1665754082502">
-      <screen x="0" y="0" width="1920" height="1080" />
+    <state width="1867" height="880" key="GridCell.Tab.1.bottom/0.0.1920.1080/1920.0.1080.1920@0.0.1920.1080" timestamp="1666154716398" />
+    <state width="1027" height="1561" key="GridCell.Tab.1.bottom/0.0.1920.1080/1920.0.1080.1920@1920.0.1080.1920" timestamp="1666186060772" />
+    <state width="1027" height="1561" key="GridCell.Tab.1.center" timestamp="1666186060772">
+      <screen x="1920" y="0" width="1080" height="1920" />
     </state>
-    <state width="1867" height="873" key="GridCell.Tab.1.center/0.0.1920.1080/1920.0.1080.1920@0.0.1920.1080" timestamp="1665754082502" />
-    <state width="1867" height="880" key="GridCell.Tab.1.center/0.0.1920.1080/1920.0.1080.1920@1920.0.1080.1920" timestamp="1665754045414" />
-    <state width="1867" height="873" key="GridCell.Tab.1.left" timestamp="1665754082501">
-      <screen x="0" y="0" width="1920" height="1080" />
+    <state width="1867" height="880" key="GridCell.Tab.1.center/0.0.1920.1080/1920.0.1080.1920@0.0.1920.1080" timestamp="1666154716398" />
+    <state width="1027" height="1561" key="GridCell.Tab.1.center/0.0.1920.1080/1920.0.1080.1920@1920.0.1080.1920" timestamp="1666186060772" />
+    <state width="1027" height="1561" key="GridCell.Tab.1.left" timestamp="1666186060772">
+      <screen x="1920" y="0" width="1080" height="1920" />
     </state>
-    <state width="1867" height="873" key="GridCell.Tab.1.left/0.0.1920.1080/1920.0.1080.1920@0.0.1920.1080" timestamp="1665754082501" />
-    <state width="1867" height="880" key="GridCell.Tab.1.left/0.0.1920.1080/1920.0.1080.1920@1920.0.1080.1920" timestamp="1665754045414" />
-    <state width="1867" height="873" key="GridCell.Tab.1.right" timestamp="1665754082502">
-      <screen x="0" y="0" width="1920" height="1080" />
+    <state width="1867" height="880" key="GridCell.Tab.1.left/0.0.1920.1080/1920.0.1080.1920@0.0.1920.1080" timestamp="1666154716398" />
+    <state width="1027" height="1561" key="GridCell.Tab.1.left/0.0.1920.1080/1920.0.1080.1920@1920.0.1080.1920" timestamp="1666186060772" />
+    <state width="1027" height="1561" key="GridCell.Tab.1.right" timestamp="1666186060772">
+      <screen x="1920" y="0" width="1080" height="1920" />
     </state>
-    <state width="1867" height="873" key="GridCell.Tab.1.right/0.0.1920.1080/1920.0.1080.1920@0.0.1920.1080" timestamp="1665754082502" />
-    <state width="1867" height="880" key="GridCell.Tab.1.right/0.0.1920.1080/1920.0.1080.1920@1920.0.1080.1920" timestamp="1665754045414" />
+    <state width="1867" height="880" key="GridCell.Tab.1.right/0.0.1920.1080/1920.0.1080.1920@0.0.1920.1080" timestamp="1666154716398" />
+    <state width="1027" height="1561" key="GridCell.Tab.1.right/0.0.1920.1080/1920.0.1080.1920@1920.0.1080.1920" timestamp="1666186060772" />
     <state width="1010" height="406" key="GridCell.Tab.2.bottom" timestamp="1665384269744">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>

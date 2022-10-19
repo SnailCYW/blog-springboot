@@ -53,9 +53,9 @@ public class ConditionVo {
     @ApiModelProperty(name = "tagId", value = "标签id", dataType = "Integer")
     private Integer tagId;
 
-    @ApiModelProperty(name = "type", value = "类型", dataType = "Integer")
+    @ApiModelProperty(name = "type", value = "登录类型", dataType = "Integer")
     private Integer type;
 
-    @ApiModelProperty(name = "loginType", value = "登录类型", dataType = "Integer")
-    private Integer loginType;
+    /*@ApiModelProperty(name = "loginType", value = "登录类型", dataType = "Integer")
+    private Integer loginType;*/
 }

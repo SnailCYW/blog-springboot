@@ -22,13 +22,14 @@ import java.util.List;
  */
 @Api(tags = "标签模块")
 @RestController
+@RequestMapping("/tags")
 public class TagUserController {
 
     @Autowired
     private TagService tagService;
 
     @ApiOperation(value = "查询标签列表", notes = "用户页面查询标签列表")
-    @GetMapping("/tags")
+    @GetMapping()
     public Result<PageResult<TagDTO>> listTags() {
         return Result.ok(tagService.listTags());
     }

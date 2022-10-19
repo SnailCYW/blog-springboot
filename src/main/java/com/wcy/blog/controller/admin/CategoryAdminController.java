@@ -24,32 +24,33 @@ import java.util.List;
  */
 @Api(tags = "分类模块")
 @RestController
+@RequestMapping("/admin/categories")
 public class CategoryAdminController {
 
     @Autowired
     private CategoryService categoryService;
 
     @ApiOperation(value = "查看后台分类列表", notes = "查看后台分类列表")
-    @GetMapping("/admin/categories")
+    @GetMapping()
     public Result<PageResult<CategoryBackDTO>> listCategoriesBack(ConditionVo condition) {
         return Result.ok(categoryService.listCategoriesBack(condition));
     }
 
     @ApiOperation(value = "搜索文章分类", notes = "搜索文章分类")
-    @GetMapping("/admin/categories/search")
+    @GetMapping("/search")
     public Result<List<CategoryOptionDTO>> searchCategories(ConditionVo condition) {
         return Result.ok(categoryService.searchCategories(condition));
     }
 
     @ApiOperation(value = "添加或修改分类", notes = "添加或修改分类")
-    @PostMapping("/admin/categories")
+    @PostMapping()
     public Result<Object> addOrUpdateCategory(@Valid @RequestBody CategoryVO categoryVO) {
         categoryService.addOrUpdateCategory(categoryVO);
         return Result.ok();
     }
 
     @ApiOperation(value = "删除分类", notes = "删除分类")
-    @DeleteMapping("/admin/categories")
+    @DeleteMapping()
     public Result<Object> deleteCategories(@RequestBody List<Integer> categoryIdList) {
         categoryService.deleteCategories(categoryIdList);
         return Result.ok();
