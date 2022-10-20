@@ -1,7 +1,10 @@
 package com.wcy.blog.service;
 
+import com.wcy.blog.dto.UniqueViewDTO;
 import com.wcy.blog.entity.UniqueView;
 import com.baomidou.mybatisplus.extension.service.IService;
+
+import java.util.List;
 
 /**
 * @author Snail
@@ -10,4 +13,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
 */
 public interface UniqueViewService extends IService<UniqueView> {
 
+    List<UniqueViewDTO> listUniqueViews();
 }

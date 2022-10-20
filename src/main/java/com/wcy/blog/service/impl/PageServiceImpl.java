@@ -4,7 +4,11 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.wcy.blog.entity.Page;
 import com.wcy.blog.service.PageService;
 import com.wcy.blog.dao.PageDao;
+import com.wcy.blog.vo.PageVO;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
 * @author Snail
@@ -15,6 +19,13 @@ import org.springframework.stereotype.Service;
 public class PageServiceImpl extends ServiceImpl<PageDao, Page>
     implements PageService{
 
+    @Autowired
+    private PageDao pageDao;
+
+    @Override
+    public List<PageVO> listPages() {
+        return pageDao.listPages();
+    }
 }
 
 

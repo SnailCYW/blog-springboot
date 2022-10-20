@@ -24,6 +24,9 @@ public interface CategoryDao extends BaseMapper<Category> {
 
     List<CategoryDTO> listCategories(@Param("current") Long current,
                                      @Param("size") Long size);
+
+    List<CategoryDTO> listCategoryDTO();
+
 }
 
 

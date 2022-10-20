@@ -5,15 +5,23 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Date;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * 
  * @TableName tb_user_auth
  */
-@TableName(value ="tb_user_auth")
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@TableName("tb_user_auth")
 public class UserAuth implements Serializable {
     /**
      * 
@@ -54,17 +62,17 @@ public class UserAuth implements Serializable {
     /**
      * 创建时间
      */
-    private Date createTime;
+    private LocalDateTime createTime;
 
     /**
      * 更新时间
      */
-    private Date updateTime;
+    private LocalDateTime updateTime;
 
     /**
      * 上次登录时间
      */
-    private Date lastLoginTime;
+    private LocalDateTime lastLoginTime;
 
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;

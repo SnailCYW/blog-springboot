@@ -2,6 +2,9 @@ package com.wcy.blog.dao;
 
 import com.wcy.blog.entity.Page;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.wcy.blog.vo.PageVO;
+
+import java.util.List;
 
 /**
 * @author Snail
@@ -11,6 +14,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 */
 public interface PageDao extends BaseMapper<Page> {
 
+    List<PageVO> listPages();
 }
 
 

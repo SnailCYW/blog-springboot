@@ -6,6 +6,7 @@ import com.wcy.blog.entity.UserAuth;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.wcy.blog.vo.ConditionVo;
 import com.wcy.blog.vo.PageResult;
+import com.wcy.blog.vo.PasswordVo;
 
 import java.util.List;
 
@@ -19,4 +20,6 @@ public interface UserAuthService extends IService<UserAuth> {
     PageResult<UserBackDTO> listUsersBack(ConditionVo condition);
 
     List<UserAreaDTO> getUsersArea(ConditionVo condition);
+
+    void updateAdminPassword(PasswordVo password);
 }

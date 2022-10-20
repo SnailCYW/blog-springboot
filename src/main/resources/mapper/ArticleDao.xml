@@ -342,4 +342,12 @@
             )
         )
     </select>
+
+    <select id="listArticleStatistics" resultType="com.wcy.blog.dto.ArticleStatisticsDTO">
+        SELECT DATE_FORMAT(create_time, "%Y-%m-%d") AS date,
+               COUNT(1)                             AS count
+        FROM tb_article
+        GROUP BY date
+        ORDER BY date DESC
+    </select>
 </mapper>

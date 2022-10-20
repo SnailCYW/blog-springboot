@@ -7,15 +7,15 @@ import com.wcy.blog.entity.UserAuth;
 import com.wcy.blog.service.UserAuthService;
 import com.wcy.blog.vo.ConditionVo;
 import com.wcy.blog.vo.PageResult;
+import com.wcy.blog.vo.PasswordVo;
 import com.wcy.blog.vo.Result;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apiguardian.api.API;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 /**
@@ -41,5 +41,12 @@ public class UserAdminController {
     @GetMapping("/area")
     public Result<List<UserAreaDTO>> getUsersArea(ConditionVo condition) {
         return Result.ok(userAuthService.getUsersArea(condition));
+    }
+
+    @ApiOperation(value = "修改管理员密码", notes = "修改管理员密码")
+    @PutMapping("/password")
+    public Result<?> updateAdminPassword(@Valid @RequestBody PasswordVo passwordVo) {
+        userAuthService.updateAdminPassword(passwordVo);
+        return Result.ok();
     }
 }

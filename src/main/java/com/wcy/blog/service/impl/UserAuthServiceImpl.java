@@ -1,17 +1,23 @@
 package com.wcy.blog.service.impl;
 
 import com.alibaba.fastjson2.JSON;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.wcy.blog.dto.UserAreaDTO;
 import com.wcy.blog.dto.UserBackDTO;
 import com.wcy.blog.entity.UserAuth;
+import com.wcy.blog.exception.BizException;
 import com.wcy.blog.service.RedisService;
 import com.wcy.blog.service.UserAuthService;
 import com.wcy.blog.dao.UserAuthDao;
 import com.wcy.blog.util.PageUtils;
+import com.wcy.blog.util.UserUtils;
 import com.wcy.blog.vo.ConditionVo;
 import com.wcy.blog.vo.PageResult;
+import com.wcy.blog.vo.PasswordVo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -71,6 +77,31 @@ public class UserAuthServiceImpl extends ServiceImpl<UserAuthDao, UserAuth>
                 return userAreaDTOList;
         }
         return userAreaDTOList;
+    }
+
+    /**
+     * bcrypt 有三个特点:
+     * <p>
+     * 每一次 Hash 出来的值不一样。
+     * 计算非常缓慢。
+     * 每次的 salt 是随机的生成的，不用担心 salt 会泄露。
+     *
+     * @param passwordVo
+     */
+    @Override
+    public void updateAdminPassword(PasswordVo passwordVo) {
+        UserAuth user = userAuthDao.selectOne(new LambdaQueryWrapper<UserAuth>()
+                .select(UserAuth::getPassword)
+                .eq(UserAuth::getId, UserUtils.getLoginUser().getId()));
+        if (Objects.nonNull(user) && BCrypt.checkpw(passwordVo.getOldPassword(), user.getPassword())) {
+            UserAuth userAuth = UserAuth.builder()
+                    .id(UserUtils.getLoginUser().getId())
+                    .password(BCrypt.hashpw(passwordVo.getNewPassword(), BCrypt.gensalt()))
+                    .build();
+            userAuthDao.updateById(userAuth);
+        } else {
+            throw new BizException("旧密码不正确");
+        }
     }
 }
 

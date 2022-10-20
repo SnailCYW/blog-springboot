@@ -38,6 +38,8 @@ public interface ArticleDao extends BaseMapper<Article> {
     ArticleDTO getArticleById(@Param("articleId") Integer articleId);
 
     List<ArticleRecommendDTO> selectRecommendArticles(@Param("articleId") Integer articleId);
+
+    List<ArticleStatisticsDTO> listArticleStatistics();
 }
 
 

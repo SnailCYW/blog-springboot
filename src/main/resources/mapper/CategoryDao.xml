@@ -18,8 +18,8 @@
     <select id="listCategoriesBack" resultType="com.wcy.blog.dto.CategoryBackDTO">
         SELECT COUNT(a.category_id) AS article_count, category_name, create_time, tc.id
         FROM tb_category tc
-        LEFT JOIN (SELECT id, category_id FROM tb_article) a
-        ON tc.id = a.category_id
+                 LEFT JOIN (SELECT id, category_id FROM tb_article) a
+                           ON tc.id = a.category_id
         GROUP BY tc.id
         ORDER BY tc.id DESC
         LIMIT #{current},#{size}
@@ -35,5 +35,20 @@
         GROUP BY tc.id
         ORDER BY tc.id DESC
         LIMIT #{current},#{size}
+    </select>
+
+
+    <select id="listCategoryDTO" resultType="com.wcy.blog.dto.CategoryDTO">
+        SELECT c.id,
+               c.category_name,
+               COUNT(a.id) AS article_count
+        FROM tb_category c
+        LEFT JOIN (SELECT id,
+                          category_id
+                   FROM tb_article
+                   WHERE is_delete = 0
+                     AND `status` = 1) a
+        ON c.id = a.category_id
+        GROUP BY c.id
     </select>
 </mapper>
