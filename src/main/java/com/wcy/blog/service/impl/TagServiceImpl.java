@@ -13,7 +13,7 @@ import com.wcy.blog.exception.BizException;
 import com.wcy.blog.service.TagService;
 import com.wcy.blog.util.BeanCopyUtils;
 import com.wcy.blog.util.PageUtils;
-import com.wcy.blog.vo.ConditionVo;
+import com.wcy.blog.vo.ConditionVO;
 import com.wcy.blog.vo.PageResult;
 import com.wcy.blog.vo.TagVO;
 import lombok.extern.slf4j.Slf4j;
@@ -49,7 +49,7 @@ public class TagServiceImpl extends ServiceImpl<TagDao, Tag> implements TagServi
     }
 
     @Override
-    public PageResult<TagBackDTO> listTagsBack(ConditionVo condition) {
+    public PageResult<TagBackDTO> listTagsBack(ConditionVO condition) {
         Integer count = tagDao.selectCount(new LambdaQueryWrapper<Tag>()
                 .like(StringUtils.isNotBlank(condition.getKeywords()), Tag::getTagName, condition.getKeywords()));
         if (count <= 0) {
@@ -61,7 +61,7 @@ public class TagServiceImpl extends ServiceImpl<TagDao, Tag> implements TagServi
     }
 
     @Override
-    public List<TagDTO> searchTag(ConditionVo condition) {
+    public List<TagDTO> searchTag(ConditionVO condition) {
         List<TagDTO> tagDTOList = tagDao.searchList(condition);
         return tagDTOList;
     }

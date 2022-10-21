@@ -2,7 +2,7 @@ package com.wcy.blog.controller.user;
 
 import com.wcy.blog.dto.*;
 import com.wcy.blog.service.ArticleService;
-import com.wcy.blog.vo.ConditionVo;
+import com.wcy.blog.vo.ConditionVO;
 import com.wcy.blog.vo.PageResult;
 import com.wcy.blog.vo.Result;
 import io.swagger.annotations.Api;
@@ -43,7 +43,7 @@ public class ArticleUserController {
 
     @ApiOperation(value = "根据标签或分类查询文章", notes = "根据标签或分类查询文章")
     @GetMapping("/condition")
-    public Result<ArticlePreviewListDTO> listArticleByCondition(ConditionVo condition) {
+    public Result<ArticlePreviewListDTO> listArticleByCondition(ConditionVO condition) {
         return Result.ok(articleService.listArticleByCondition(condition));
     }
 
@@ -56,7 +56,7 @@ public class ArticleUserController {
 
     @ApiOperation(value = "搜索文章", notes = "搜索文章")
     @GetMapping("/search")
-    public Result<List<ArticleSearchDTO>> searchArticles(ConditionVo condition) {
+    public Result<List<ArticleSearchDTO>> searchArticles(ConditionVO condition) {
         return Result.ok(articleService.searchArticles(condition));
     }
 

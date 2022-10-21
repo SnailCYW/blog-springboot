@@ -4,10 +4,8 @@ import com.wcy.blog.dto.*;
 import com.wcy.blog.entity.Article;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.wcy.blog.vo.ArticleVo;
-import com.wcy.blog.vo.ConditionVo;
+import com.wcy.blog.vo.ConditionVO;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.parameters.P;
 
 import java.util.List;
 
@@ -20,11 +18,11 @@ import java.util.List;
 public interface ArticleDao extends BaseMapper<Article> {
 
 
-    Integer articleBackCount(@Param("condition") ConditionVo condition);
+    Integer articleBackCount(@Param("condition") ConditionVO condition);
 
     List<ArticleBackDTO> listArticleBack(@Param("current") Long current,
                                          @Param("size") Long size,
-                                         @Param("condition") ConditionVo condition);
+                                         @Param("condition") ConditionVO condition);
 
     ArticleVo getArticleBackById(@Param("articleId") Integer articleId);
 
@@ -33,7 +31,7 @@ public interface ArticleDao extends BaseMapper<Article> {
 
     List<ArticlePreviewDTO> listArticleByCondition(@Param("current") Long current,
                                                    @Param("size") Long size,
-                                                   @Param("condition") ConditionVo condition);
+                                                   @Param("condition") ConditionVO condition);
 
     ArticleDTO getArticleById(@Param("articleId") Integer articleId);
 

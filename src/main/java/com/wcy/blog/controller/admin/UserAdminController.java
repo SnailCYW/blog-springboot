@@ -1,17 +1,14 @@
 package com.wcy.blog.controller.admin;
 
-import com.wcy.blog.dao.UserAuthDao;
 import com.wcy.blog.dto.UserAreaDTO;
 import com.wcy.blog.dto.UserBackDTO;
-import com.wcy.blog.entity.UserAuth;
 import com.wcy.blog.service.UserAuthService;
-import com.wcy.blog.vo.ConditionVo;
+import com.wcy.blog.vo.ConditionVO;
 import com.wcy.blog.vo.PageResult;
-import com.wcy.blog.vo.PasswordVo;
+import com.wcy.blog.vo.PasswordVO;
 import com.wcy.blog.vo.Result;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.apiguardian.api.API;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,19 +30,19 @@ public class UserAdminController {
 
     @ApiOperation(value = "查询后台用户列表", notes = "查询后台用户列表")
     @GetMapping()
-    public Result<PageResult<UserBackDTO>> listUsersBack(ConditionVo condition) {
+    public Result<PageResult<UserBackDTO>> listUsersBack(ConditionVO condition) {
         return Result.ok(userAuthService.listUsersBack(condition));
     }
 
     @ApiOperation(value = "获取用户区域分布", notes = "获取用户区域分布")
     @GetMapping("/area")
-    public Result<List<UserAreaDTO>> getUsersArea(ConditionVo condition) {
+    public Result<List<UserAreaDTO>> getUsersArea(ConditionVO condition) {
         return Result.ok(userAuthService.getUsersArea(condition));
     }
 
     @ApiOperation(value = "修改管理员密码", notes = "修改管理员密码")
     @PutMapping("/password")
-    public Result<?> updateAdminPassword(@Valid @RequestBody PasswordVo passwordVo) {
+    public Result<?> updateAdminPassword(@Valid @RequestBody PasswordVO passwordVo) {
         userAuthService.updateAdminPassword(passwordVo);
         return Result.ok();
     }

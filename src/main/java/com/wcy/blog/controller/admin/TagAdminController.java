@@ -2,9 +2,8 @@ package com.wcy.blog.controller.admin;
 
 import com.wcy.blog.dto.TagBackDTO;
 import com.wcy.blog.dto.TagDTO;
-import com.wcy.blog.entity.Page;
 import com.wcy.blog.service.TagService;
-import com.wcy.blog.vo.ConditionVo;
+import com.wcy.blog.vo.ConditionVO;
 import com.wcy.blog.vo.PageResult;
 import com.wcy.blog.vo.Result;
 import com.wcy.blog.vo.TagVO;
@@ -31,13 +30,13 @@ public class TagAdminController {
 
     @ApiOperation(value = "后台查询标签列表", notes = "后台页面查询标签列表")
     @GetMapping()
-    public Result<PageResult<TagBackDTO>> listTagsBack(ConditionVo conditionVo) {
+    public Result<PageResult<TagBackDTO>> listTagsBack(ConditionVO conditionVo) {
         return Result.ok(tagService.listTagsBack(conditionVo));
     }
 
     @ApiOperation(value = "搜索文章标签", notes = "搜索文章标签")
     @GetMapping("/search")
-    public Result<List<TagDTO>> searchTag(ConditionVo conditionVo) {
+    public Result<List<TagDTO>> searchTag(ConditionVO conditionVo) {
         return Result.ok(tagService.searchTag(conditionVo));
     }
 

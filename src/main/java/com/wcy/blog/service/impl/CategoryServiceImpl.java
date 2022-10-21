@@ -1,7 +1,6 @@
 package com.wcy.blog.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.wcy.blog.dao.ArticleDao;
@@ -10,14 +9,13 @@ import com.wcy.blog.dto.CategoryDTO;
 import com.wcy.blog.dto.CategoryOptionDTO;
 import com.wcy.blog.entity.Article;
 import com.wcy.blog.entity.Category;
-import com.wcy.blog.entity.Page;
 import com.wcy.blog.exception.BizException;
 import com.wcy.blog.service.CategoryService;
 import com.wcy.blog.dao.CategoryDao;
 import com.wcy.blog.util.BeanCopyUtils;
 import com.wcy.blog.util.PageUtils;
 import com.wcy.blog.vo.CategoryVO;
-import com.wcy.blog.vo.ConditionVo;
+import com.wcy.blog.vo.ConditionVO;
 import com.wcy.blog.vo.PageResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -41,14 +39,14 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, Category>
     private ArticleDao articleDao;
 
     @Override
-    public PageResult<CategoryBackDTO> listCategoriesBack(ConditionVo condition) {
+    public PageResult<CategoryBackDTO> listCategoriesBack(ConditionVO condition) {
         Integer count = categoryDao.selectCount(null);
         List<CategoryBackDTO> categoryBackDTOList = categoryDao.listCategoriesBack(PageUtils.getLimitCurrent(), PageUtils.getSize(), condition);
         return new PageResult<>(count, categoryBackDTOList);
     }
 
     @Override
-    public List<CategoryOptionDTO> searchCategories(ConditionVo condition) {
+    public List<CategoryOptionDTO> searchCategories(ConditionVO condition) {
         LambdaQueryWrapper<Category> queryWrapper = new LambdaQueryWrapper<>();
         if (StringUtils.isNotBlank(condition.getKeywords())) {
             queryWrapper.like(Category::getCategoryName, condition.getKeywords());

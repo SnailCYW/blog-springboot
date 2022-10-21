@@ -1,7 +1,11 @@
 package com.wcy.blog.dao;
 
+import com.wcy.blog.dto.UserMenuDTO;
 import com.wcy.blog.entity.Menu;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
 * @author Snail
@@ -11,6 +15,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 */
 public interface MenuDao extends BaseMapper<Menu> {
 
+    List<Menu> listUserMenus(@Param("userInfoId") Integer userId);
 }
 
 

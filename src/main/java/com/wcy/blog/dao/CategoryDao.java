@@ -4,8 +4,7 @@ import com.wcy.blog.dto.CategoryBackDTO;
 import com.wcy.blog.dto.CategoryDTO;
 import com.wcy.blog.entity.Category;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.wcy.blog.util.PageUtils;
-import com.wcy.blog.vo.ConditionVo;
+import com.wcy.blog.vo.ConditionVO;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -20,7 +19,7 @@ public interface CategoryDao extends BaseMapper<Category> {
 
     List<CategoryBackDTO> listCategoriesBack(@Param("current") Long current,
                                              @Param("size") Long size,
-                                             @Param("condition") ConditionVo condition);
+                                             @Param("condition") ConditionVO condition);
 
     List<CategoryDTO> listCategories(@Param("current") Long current,
                                      @Param("size") Long size);

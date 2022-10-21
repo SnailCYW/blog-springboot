@@ -6,14 +6,21 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 import java.util.Date;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * 
  * @TableName tb_website_config
  */
-@TableName(value ="tb_website_config")
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@TableName(value ="tb_website_config")
 public class WebsiteConfig implements Serializable {
     /**
      * 

@@ -6,7 +6,7 @@ import com.wcy.blog.dto.CategoryOptionDTO;
 import com.wcy.blog.entity.Category;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.wcy.blog.vo.CategoryVO;
-import com.wcy.blog.vo.ConditionVo;
+import com.wcy.blog.vo.ConditionVO;
 import com.wcy.blog.vo.PageResult;
 
 import java.util.List;
@@ -18,9 +18,9 @@ import java.util.List;
 */
 public interface CategoryService extends IService<Category> {
 
-    PageResult<CategoryBackDTO> listCategoriesBack(ConditionVo condition);
+    PageResult<CategoryBackDTO> listCategoriesBack(ConditionVO condition);
 
-    List<CategoryOptionDTO> searchCategories(ConditionVo condition);
+    List<CategoryOptionDTO> searchCategories(ConditionVO condition);
 
     PageResult<CategoryDTO> listCategories();
 

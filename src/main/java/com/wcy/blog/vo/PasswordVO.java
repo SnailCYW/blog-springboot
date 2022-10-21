@@ -13,7 +13,7 @@ import javax.validation.constraints.NotBlank;
  */
 @Data
 @ApiModel(description = "密码")
-public class PasswordVo {
+public class PasswordVO {
 
     @NotBlank
     @ApiModelProperty(name = "newPassword", value = "新密码", required = true, dataType = "String")

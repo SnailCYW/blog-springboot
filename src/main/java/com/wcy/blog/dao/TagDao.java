@@ -4,9 +4,8 @@ import com.wcy.blog.dto.TagBackDTO;
 import com.wcy.blog.dto.TagDTO;
 import com.wcy.blog.entity.Tag;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.wcy.blog.vo.ConditionVo;
+import com.wcy.blog.vo.ConditionVO;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.security.access.prepost.PreAuthorize;
 
 import java.util.List;
 
@@ -20,9 +19,9 @@ public interface TagDao extends BaseMapper<Tag> {
 
     public List<TagBackDTO> selectBackList(@Param("current") Long current,
                                            @Param("size") Long size,
-                                           @Param("condition") ConditionVo condition);
+                                           @Param("condition") ConditionVO condition);
 
-    public List<TagDTO> searchList(@Param("condition") ConditionVo condition);
+    public List<TagDTO> searchList(@Param("condition") ConditionVO condition);
 }
 
 

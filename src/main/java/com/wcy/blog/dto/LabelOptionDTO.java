@@ -5,19 +5,23 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 /**
  * @author 吴崇远
  * @version 1.0
- * @Date: 2022/10/20/21:18
+ * @Date: 2022/10/21/19:35
  */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class ArticleStatisticsDTO {
+public class LabelOptionDTO {
 
-    private Integer count;
+    private List<LabelOptionDTO> children;
 
-    private String date;
+    private Integer id;
+
+    private String label;
 
 }

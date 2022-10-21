@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 @Data
 @Builder
 @ApiModel(value = "查询条件")
-public class ConditionVo {
+public class ConditionVO {
 
     @ApiModelProperty(name = "albumId", value = "相册id", dataType = "Integer")
     private Integer albumId;

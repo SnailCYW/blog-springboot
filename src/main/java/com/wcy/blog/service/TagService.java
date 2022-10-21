@@ -4,7 +4,7 @@ import com.wcy.blog.dto.TagBackDTO;
 import com.wcy.blog.dto.TagDTO;
 import com.wcy.blog.entity.Tag;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.wcy.blog.vo.ConditionVo;
+import com.wcy.blog.vo.ConditionVO;
 import com.wcy.blog.vo.PageResult;
 import com.wcy.blog.vo.TagVO;
 
@@ -19,9 +19,9 @@ public interface TagService extends IService<Tag> {
 
     PageResult<TagDTO> listTags();
 
-    PageResult<TagBackDTO> listTagsBack(ConditionVo conditionVo);
+    PageResult<TagBackDTO> listTagsBack(ConditionVO conditionVo);
 
-    List<TagDTO> searchTag(ConditionVo conditionVo);
+    List<TagDTO> searchTag(ConditionVO conditionVo);
 
     void addOrModifyTags(TagVO tagVO);
 

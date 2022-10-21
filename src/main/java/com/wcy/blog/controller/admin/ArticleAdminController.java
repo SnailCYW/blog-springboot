@@ -3,7 +3,7 @@ package com.wcy.blog.controller.admin;
 import com.wcy.blog.dto.ArticleBackDTO;
 import com.wcy.blog.service.ArticleService;
 import com.wcy.blog.vo.ArticleVo;
-import com.wcy.blog.vo.ConditionVo;
+import com.wcy.blog.vo.ConditionVO;
 import com.wcy.blog.vo.PageResult;
 import com.wcy.blog.vo.Result;
 import io.swagger.annotations.Api;
@@ -11,8 +11,6 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
 
 /**
  * @author 吴崇远
@@ -30,7 +28,7 @@ public class ArticleAdminController {
 
     @ApiOperation(value = "查看后台文章", notes = "查看后台文章")
     @GetMapping()
-    public Result<PageResult<ArticleBackDTO>> listArticleBack(ConditionVo condition) {
+    public Result<PageResult<ArticleBackDTO>> listArticleBack(ConditionVO condition) {
         return Result.ok(articleService.listArticleBack(condition));
     }
 

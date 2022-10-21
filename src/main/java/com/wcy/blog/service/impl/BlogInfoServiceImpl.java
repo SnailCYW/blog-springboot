@@ -3,25 +3,34 @@ package com.wcy.blog.service.impl;
 import com.alibaba.fastjson2.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.wcy.blog.dao.*;
 import com.wcy.blog.dto.*;
 import com.wcy.blog.entity.Article;
 import com.wcy.blog.entity.Tag;
+import com.wcy.blog.entity.WebsiteConfig;
 import com.wcy.blog.service.BlogInfoService;
 import com.wcy.blog.service.PageService;
 import com.wcy.blog.service.RedisService;
 import com.wcy.blog.service.UniqueViewService;
 import com.wcy.blog.util.BeanCopyUtils;
+import com.wcy.blog.util.IpUtils;
+import com.wcy.blog.vo.BlogInfoVO;
 import com.wcy.blog.vo.PageVO;
 import com.wcy.blog.vo.WebsiteConfigVO;
+import eu.bitwalker.useragentutils.Browser;
+import eu.bitwalker.useragentutils.OperatingSystem;
+import eu.bitwalker.useragentutils.UserAgent;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.DigestUtils;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static com.wcy.blog.constant.CommonConst.DEFAULT_CONFIG_ID;
-import static com.wcy.blog.constant.CommonConst.FALSE;
+import static com.wcy.blog.constant.CommonConst.*;
 import static com.wcy.blog.constant.RedisPrefixConst.*;
 import static com.wcy.blog.enums.ArticleStatusEnum.PUBLIC;
 
@@ -30,6 +39,7 @@ import static com.wcy.blog.enums.ArticleStatusEnum.PUBLIC;
  * @version 1.0
  * @Date: 2022/10/20/20:38
  */
+@Slf4j
 @Service
 public class BlogInfoServiceImpl implements BlogInfoService {
 
@@ -51,6 +61,8 @@ public class BlogInfoServiceImpl implements BlogInfoService {
     private RedisService redisService;
     @Autowired
     private PageService pageService;
+    @Autowired
+    private HttpServletRequest request;
 
     @Override
     public BlogHomeInfoDTO getBlogInfo() {
@@ -140,18 +152,66 @@ public class BlogInfoServiceImpl implements BlogInfoService {
                 .collect(Collectors.toList());
     }
 
-    private WebsiteConfigVO getWebsiteConfig() {
+    public WebsiteConfigVO getWebsiteConfig() {
         WebsiteConfigVO websiteConfigVO;
         // 先尝试从缓存获取数据
         Object websiteConfig = redisService.get(WEBSITE_CONFIG);
         if (Objects.nonNull(websiteConfig)) {
             websiteConfigVO = JSON.parseObject(websiteConfig.toString(), WebsiteConfigVO.class);
         } else {
+            // 缓存获取不到，从数据库中加载
             String config = websiteConfigDao.selectById(DEFAULT_CONFIG_ID).getConfig();
             websiteConfigVO = JSON.parseObject(config, WebsiteConfigVO.class);
             redisService.set(WEBSITE_CONFIG, config);
         }
         return websiteConfigVO;
 
+    }
+
+    @Override
+    public void updateAboutMe(BlogInfoVO blogInfoVO) {
+        redisService.set(ABOUT, blogInfoVO.getAboutContent());
+    }
+
+    @Override
+    public void updateWebsiteConfig(WebsiteConfigVO websiteConfigVO) {
+        // 修改数据库网站配置
+        WebsiteConfig websiteConfig = WebsiteConfig.builder()
+                .id(1)
+                .config(JSON.toJSONString(websiteConfigVO))
+                .build();
+        websiteConfigDao.updateById(websiteConfig);
+        // 删除redis缓存
+        redisService.set(WEBSITE_CONFIG, websiteConfig.getConfig());
+    }
+
+    @Override
+    public void report() {
+        // 获取ip
+        String ipAddress = IpUtils.getIpAddress(request);
+        // 获取访问设备
+        UserAgent userAgent = IpUtils.getUserAgent(request);
+        Browser browser = userAgent.getBrowser();
+        OperatingSystem operatingSystem = userAgent.getOperatingSystem();
+        // 生成唯一用户标识
+        String uuid = ipAddress + browser.getName() + operatingSystem.getName();
+        String md5 = DigestUtils.md5DigestAsHex(uuid.getBytes());
+        // 判断过去是否访问
+        if (!redisService.sIsMember(UNIQUE_VISITOR, md5)) {
+            // 统计游客地域分布
+            String ipSource = IpUtils.getIpSource(ipAddress);
+            if (StringUtils.isNotBlank(ipSource)) {
+                ipSource = ipSource.substring(0, 2)
+                        .replaceAll(PROVINCE, "")
+                        .replaceAll(CITY, "");
+                redisService.hIncr(VISITOR_AREA, ipSource, 1L);
+            } else {
+                redisService.hIncr(VISITOR_AREA, UNKNOWN, 1L);
+            }
+            // 访问量+1
+            redisService.incr(BLOG_VIEWS_COUNT, 1);
+            // 保存唯一标识
+            redisService.sAdd(UNIQUE_VISITOR, md5);
+        }
     }
 }

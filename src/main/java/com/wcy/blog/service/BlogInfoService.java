@@ -2,6 +2,8 @@ package com.wcy.blog.service;
 
 import com.wcy.blog.dto.BlogBackInfoDTO;
 import com.wcy.blog.dto.BlogHomeInfoDTO;
+import com.wcy.blog.vo.BlogInfoVO;
+import com.wcy.blog.vo.WebsiteConfigVO;
 
 /**
  * @author 吴崇远
@@ -15,4 +17,12 @@ public interface BlogInfoService {
     String getAboutMe();
 
     BlogBackInfoDTO getBlogInfoBack();
+
+    WebsiteConfigVO getWebsiteConfig();
+
+    void updateAboutMe(BlogInfoVO blogInfoVO);
+
+    void updateWebsiteConfig(WebsiteConfigVO websiteConfigVO);
+
+    void report();
 }

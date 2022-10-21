@@ -55,7 +55,7 @@
                tui.is_disable,
                nickname
         FROM tb_user_auth tua
-        LEFT JOIN tb_user_role tur ON user_id = tua.id
+        LEFT JOIN tb_user_role tur ON user_id = tua.user_info_id
         LEFT JOIN (
             SELECT id, nickname, is_disable, avatar
             FROM tb_user_info

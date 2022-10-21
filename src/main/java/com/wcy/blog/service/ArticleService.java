@@ -4,7 +4,7 @@ import com.wcy.blog.dto.*;
 import com.wcy.blog.entity.Article;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.wcy.blog.vo.ArticleVo;
-import com.wcy.blog.vo.ConditionVo;
+import com.wcy.blog.vo.ConditionVO;
 import com.wcy.blog.vo.PageResult;
 
 import java.util.List;
@@ -16,7 +16,7 @@ import java.util.List;
 */
 public interface ArticleService extends IService<Article> {
 
-    PageResult<ArticleBackDTO> listArticleBack(ConditionVo condition);
+    PageResult<ArticleBackDTO> listArticleBack(ConditionVO condition);
 
     ArticleVo getArticleBackById(Integer articleId);
 
@@ -24,11 +24,11 @@ public interface ArticleService extends IService<Article> {
 
     PageResult<ArchiveDTO> listArchives();
 
-    ArticlePreviewListDTO listArticleByCondition(ConditionVo condition);
+    ArticlePreviewListDTO listArticleByCondition(ConditionVO condition);
 
     ArticleDTO getArticleById(Integer articleId);
 
-    List<ArticleSearchDTO> searchArticles(ConditionVo condition);
+    List<ArticleSearchDTO> searchArticles(ConditionVO condition);
 
     void addOrUpdateArticle(ArticleVo articleVo);
 }

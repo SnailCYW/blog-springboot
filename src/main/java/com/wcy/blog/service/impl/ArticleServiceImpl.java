@@ -14,15 +14,13 @@ import com.wcy.blog.entity.Tag;
 import com.wcy.blog.service.ArticleService;
 import com.wcy.blog.dao.ArticleDao;
 import com.wcy.blog.service.RedisService;
-import com.wcy.blog.service.TagService;
 import com.wcy.blog.strategy.context.SearchStrategyContext;
 import com.wcy.blog.util.BeanCopyUtils;
 import com.wcy.blog.util.CommonUtils;
 import com.wcy.blog.util.PageUtils;
 import com.wcy.blog.vo.ArticleVo;
-import com.wcy.blog.vo.ConditionVo;
+import com.wcy.blog.vo.ConditionVO;
 import com.wcy.blog.vo.PageResult;
-import org.apache.lucene.index.SingleTermsEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -61,7 +59,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleDao, Article>
     private SearchStrategyContext searchStrategyContext;
 
     @Override
-    public PageResult<ArticleBackDTO> listArticleBack(ConditionVo condition) {
+    public PageResult<ArticleBackDTO> listArticleBack(ConditionVO condition) {
         Integer count = articleDao.articleBackCount(condition);
         if (count <= 0) {
             return new PageResult<>();
@@ -104,7 +102,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleDao, Article>
     }
 
     @Override
-    public ArticlePreviewListDTO listArticleByCondition(ConditionVo condition) {
+    public ArticlePreviewListDTO listArticleByCondition(ConditionVO condition) {
         List<ArticlePreviewDTO> articlePreviewDTOList = articleDao.listArticleByCondition(PageUtils.getLimitCurrent(), PageUtils.getSize(), condition);
         String name = null;
         if (Objects.nonNull(condition.getCategoryId())) {
@@ -160,7 +158,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleDao, Article>
     }
 
     @Override
-    public List<ArticleSearchDTO> searchArticles(ConditionVo condition) {
+    public List<ArticleSearchDTO> searchArticles(ConditionVO condition) {
         return searchStrategyContext.executeSearchStrategy(condition.getKeywords());
     }
 

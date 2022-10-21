@@ -12,11 +12,10 @@ import com.wcy.blog.service.UserAuthService;
 import com.wcy.blog.dao.UserAuthDao;
 import com.wcy.blog.util.PageUtils;
 import com.wcy.blog.util.UserUtils;
-import com.wcy.blog.vo.ConditionVo;
+import com.wcy.blog.vo.ConditionVO;
 import com.wcy.blog.vo.PageResult;
-import com.wcy.blog.vo.PasswordVo;
+import com.wcy.blog.vo.PasswordVO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
@@ -45,7 +44,7 @@ public class UserAuthServiceImpl extends ServiceImpl<UserAuthDao, UserAuth>
     private RedisService redisService;
 
     @Override
-    public PageResult<UserBackDTO> listUsersBack(ConditionVo condition) {
+    public PageResult<UserBackDTO> listUsersBack(ConditionVO condition) {
         Integer count = userAuthDao.selectCount(null);
         if (count == 0) {
             return new PageResult<>();
@@ -55,7 +54,7 @@ public class UserAuthServiceImpl extends ServiceImpl<UserAuthDao, UserAuth>
     }
 
     @Override
-    public List<UserAreaDTO> getUsersArea(ConditionVo condition) {
+    public List<UserAreaDTO> getUsersArea(ConditionVO condition) {
         List<UserAreaDTO> userAreaDTOList = new ArrayList<>();
         switch (Objects.requireNonNull(getUserAreaType(condition.getType()))) {
             case USER:
@@ -89,7 +88,7 @@ public class UserAuthServiceImpl extends ServiceImpl<UserAuthDao, UserAuth>
      * @param passwordVo
      */
     @Override
-    public void updateAdminPassword(PasswordVo passwordVo) {
+    public void updateAdminPassword(PasswordVO passwordVo) {
         UserAuth user = userAuthDao.selectOne(new LambdaQueryWrapper<UserAuth>()
                 .select(UserAuth::getPassword)
                 .eq(UserAuth::getId, UserUtils.getLoginUser().getId()));
