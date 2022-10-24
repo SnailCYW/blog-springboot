@@ -12,7 +12,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://120.25.1.223:3306/blog?serverTimezone=Asia/Shanghai&allowMultiQueries=true
     username: root
-    password: 123456
+    password: wcy0204
     hikari:
       minimum-idle: 5
       # 空闲连接存活最大时间，默认600000（10分钟）

@@ -9,10 +9,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -49,7 +46,7 @@ public class ArticleUserController {
 
     @ApiOperation(value = "根据id查看文章", notes = "根据id查看文章")
     @ApiImplicitParam(name = "articleId", value = "文章id", required = true, dataType = "Integer")
-    @GetMapping("/{articleId}}")
+    @GetMapping("/{articleId}")
     public Result<ArticleDTO> getArticleById(@PathVariable("articleId") Integer articleId) {
         return Result.ok(articleService.getArticleById(articleId));
     }
@@ -58,6 +55,14 @@ public class ArticleUserController {
     @GetMapping("/search")
     public Result<List<ArticleSearchDTO>> searchArticles(ConditionVO condition) {
         return Result.ok(articleService.searchArticles(condition));
+    }
+
+    @ApiOperation(value = "搜索文章", notes = "搜索文章")
+    @ApiImplicitParam(name = "articleId", value = "文章id", required = true, dataType = "Integer")
+    @PostMapping("/{articleId}/like")
+    public Result<?> likeArticle(@PathVariable("articleId") Integer articleId) {
+        articleService.likeArticle(articleId);
+        return Result.ok();
     }
 
 }

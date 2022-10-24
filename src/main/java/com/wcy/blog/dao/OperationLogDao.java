@@ -1,7 +1,11 @@
 package com.wcy.blog.dao;
 
+import com.wcy.blog.dto.OperationLogDTO;
 import com.wcy.blog.entity.OperationLog;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.wcy.blog.vo.ConditionVO;
+import com.wcy.blog.vo.PageResult;
+import org.apache.ibatis.annotations.Param;
 
 /**
 * @author Snail
@@ -11,6 +15,9 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 */
 public interface OperationLogDao extends BaseMapper<OperationLog> {
 
+    PageResult<OperationLogDTO> listOperationLogs(@Param("current") Long current,
+                                                  @Param("size") Long size,
+                                                  @Param("condition") ConditionVO condition);
 }
 
 

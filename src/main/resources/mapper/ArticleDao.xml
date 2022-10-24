@@ -36,7 +36,7 @@
         </collection>
     </resultMap>
 
-    <resultMap id="getArticleBackByIdMap" type="com.wcy.blog.vo.ArticleVo">
+    <resultMap id="getArticleBackByIdMap" type="com.wcy.blog.vo.ArticleVO">
         <id column="id" property="id"/>
         <result column="article_content" property="articleContent"/>
         <result column="article_cover" property="articleCover"/>
@@ -248,6 +248,7 @@
                  LEFT JOIN tb_category tc ON ta.category_id = tc.id
                  LEFT JOIN tb_article_tag tat ON ta.id = tat.article_id
                  LEFT JOIN tb_tag tt ON tat.tag_id = tt.id
+                 ORDER BY is_top DESC
     </select>
 
     <select id="listArticleByCondition" resultMap="listArticleByConditionMap">

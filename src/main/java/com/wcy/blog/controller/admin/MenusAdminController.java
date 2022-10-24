@@ -1,5 +1,6 @@
 package com.wcy.blog.controller.admin;
 
+import com.wcy.blog.annotation.OptLog;
 import com.wcy.blog.dto.LabelOptionDTO;
 import com.wcy.blog.dto.MenuDTO;
 import com.wcy.blog.dto.UserMenuDTO;
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+
+import static com.wcy.blog.constant.OptTypeConst.*;
 
 /**
  * @author 吴崇远
@@ -36,6 +39,7 @@ public class MenusAdminController {
     }
 
     @ApiOperation(value = "新增或修改菜单", notes = "新增或修改菜单")
+    @OptLog(optType = ADD_OR_UPDATE)
     @PostMapping("/menus")
     public Result<?> addOrUpdateMenus(@Valid @RequestBody MenuVO menuVO) {
         menuService.addOrUpdateMenus(menuVO);
@@ -43,6 +47,7 @@ public class MenusAdminController {
     }
 
     @ApiOperation(value = "删除菜单", notes = "删除菜单")
+    @OptLog(optType = DELETE)
     @ApiImplicitParam(name = "menuId",value = "menuId",required = true, dataType = "Integer")
     @DeleteMapping("/menus/{menuId}")
     public Result<?> deleteMenuById(@PathVariable("menuId") Integer menuId) {

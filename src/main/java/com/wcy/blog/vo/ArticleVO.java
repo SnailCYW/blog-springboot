@@ -21,7 +21,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @ApiModel(description = "文章")
-public class ArticleVo {
+public class ArticleVO {
 
     @NotBlank(message = "文章内容不能为空")
     @ApiModelProperty(name = "articleContent", value = "文章内容", required = true, dataType = "String")

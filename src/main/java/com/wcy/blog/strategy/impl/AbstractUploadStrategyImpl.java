@@ -19,14 +19,20 @@ public abstract class AbstractUploadStrategyImpl implements UploadStrategy {
     @Override
     public String uploadFile(MultipartFile file, String path) {
         try {
+            // 获取文件md5值
             String md5 = FileUtils.getMd5(file.getInputStream());
+            // 获取文件扩展名
             String extName = FileUtils.getExtName(file.getOriginalFilename());
+            // 重新生成文件名
             String fileName = md5 + extName;
+            // 判断文件是否已存在
             if (!exists(path + fileName)) {
+                // 不存在则继续上传
                 upload(path, fileName, file.getInputStream());
             }
+            // 返回文件访问路径
             return getFileAccessUrl(path + fileName);
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             throw new BizException("文件上传失败");
         }
@@ -34,7 +40,15 @@ public abstract class AbstractUploadStrategyImpl implements UploadStrategy {
 
     @Override
     public String uploadFile(String fileName, InputStream inputStream, String path) {
-        return null;
+        try {
+            // 上传文件
+            upload(path, fileName, inputStream);
+            // 返回文件访问路径
+            return getFileAccessUrl(path + fileName);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new BizException("文件上传失败");
+        }
     }
 
     /**
@@ -62,4 +76,5 @@ public abstract class AbstractUploadStrategyImpl implements UploadStrategy {
      * @return {@link String}
      */
     public abstract String getFileAccessUrl(String filePath);
+
 }

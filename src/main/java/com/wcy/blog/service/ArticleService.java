@@ -3,9 +3,8 @@ package com.wcy.blog.service;
 import com.wcy.blog.dto.*;
 import com.wcy.blog.entity.Article;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.wcy.blog.vo.ArticleVo;
-import com.wcy.blog.vo.ConditionVO;
-import com.wcy.blog.vo.PageResult;
+import com.wcy.blog.vo.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -18,7 +17,7 @@ public interface ArticleService extends IService<Article> {
 
     PageResult<ArticleBackDTO> listArticleBack(ConditionVO condition);
 
-    ArticleVo getArticleBackById(Integer articleId);
+    ArticleVO getArticleBackById(Integer articleId);
 
     List<ArticleHomeDTO> listHomeArticles();
 
@@ -30,5 +29,19 @@ public interface ArticleService extends IService<Article> {
 
     List<ArticleSearchDTO> searchArticles(ConditionVO condition);
 
-    void addOrUpdateArticle(ArticleVo articleVo);
+    void addOrUpdateArticle(ArticleVO articleVo);
+
+    void deleteOrRestoreArticle(DeleteVO deleteVO);
+
+    void deleteArticle(List<Integer> articleIdList);
+
+    List<String> exportArticles(List<Integer> articleIdList);
+
+    String uploadImages(MultipartFile file);
+
+    void importArticles(MultipartFile file, String type);
+
+    void updateArticleWithTop(ArticleTopVO articleTopVO);
+
+    void likeArticle(Integer articleId);
 }

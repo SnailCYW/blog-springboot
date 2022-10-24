@@ -1,6 +1,10 @@
 package com.wcy.blog.service.impl;
 
+import cn.hutool.core.exceptions.ExceptionUtil;
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
+import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.wcy.blog.dao.ArticleTagDao;
@@ -11,28 +15,37 @@ import com.wcy.blog.entity.Article;
 import com.wcy.blog.entity.ArticleTag;
 import com.wcy.blog.entity.Category;
 import com.wcy.blog.entity.Tag;
-import com.wcy.blog.service.ArticleService;
+import com.wcy.blog.enums.FileExtEnum;
+import com.wcy.blog.enums.FilePathEnum;
+import com.wcy.blog.exception.BizException;
+import com.wcy.blog.service.*;
 import com.wcy.blog.dao.ArticleDao;
-import com.wcy.blog.service.RedisService;
+import com.wcy.blog.strategy.context.ArticleImportStrategyContext;
 import com.wcy.blog.strategy.context.SearchStrategyContext;
+import com.wcy.blog.strategy.context.UploadStrategyContext;
 import com.wcy.blog.util.BeanCopyUtils;
 import com.wcy.blog.util.CommonUtils;
 import com.wcy.blog.util.PageUtils;
-import com.wcy.blog.vo.ArticleVo;
-import com.wcy.blog.vo.ConditionVO;
-import com.wcy.blog.vo.PageResult;
+import com.wcy.blog.util.UserUtils;
+import com.wcy.blog.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpSession;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
+import java.util.stream.Collectors;
 
 import static com.wcy.blog.constant.CommonConst.ARTICLE_SET;
 import static com.wcy.blog.constant.CommonConst.FALSE;
-import static com.wcy.blog.constant.RedisPrefixConst.ARTICLE_LIKE_COUNT;
-import static com.wcy.blog.constant.RedisPrefixConst.ARTICLE_VIEWS_COUNT;
+import static com.wcy.blog.constant.RedisPrefixConst.*;
+import static com.wcy.blog.enums.ArticleStatusEnum.DRAFT;
 import static com.wcy.blog.enums.ArticleStatusEnum.PUBLIC;
+import static com.wcy.blog.enums.FilePathEnum.ARTICLE;
 
 /**
  * @author Snail
@@ -40,8 +53,7 @@ import static com.wcy.blog.enums.ArticleStatusEnum.PUBLIC;
  * @createDate 2022-09-25 22:59:17
  */
 @Service
-public class ArticleServiceImpl extends ServiceImpl<ArticleDao, Article>
-        implements ArticleService {
+public class ArticleServiceImpl extends ServiceImpl<ArticleDao, Article> implements ArticleService {
 
     @Autowired
     private ArticleDao articleDao;
@@ -54,9 +66,19 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleDao, Article>
     @Autowired
     private RedisService redisService;
     @Autowired
+    private ArticleTagService articleTagService;
+    @Autowired
+    private BlogInfoService blogInfoService;
+    @Autowired
+    private TagService tagService;
+    @Autowired
     private HttpSession session;
     @Autowired
     private SearchStrategyContext searchStrategyContext;
+    @Autowired
+    private UploadStrategyContext uploadStrategyContext;
+    @Autowired
+    private ArticleImportStrategyContext articleImportStrategyContext;
 
     @Override
     public PageResult<ArticleBackDTO> listArticleBack(ConditionVO condition) {
@@ -78,8 +100,8 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleDao, Article>
     }
 
     @Override
-    public ArticleVo getArticleBackById(Integer articleId) {
-        ArticleVo articleVo = articleDao.getArticleBackById(articleId);
+    public ArticleVO getArticleBackById(Integer articleId) {
+        ArticleVO articleVo = articleDao.getArticleBackById(articleId);
         return articleVo;
     }
 
@@ -164,29 +186,137 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleDao, Article>
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public void addOrUpdateArticle(ArticleVo articleVo) {
-        Category category = categoryDao.selectOne(new LambdaQueryWrapper<Category>()
-                .select(Category::getId)
-                .eq(Category::getCategoryName, articleVo.getCategoryName()));
-        List<Tag> tagList = tagDao.selectList(new LambdaQueryWrapper<Tag>()
-                .select(Tag::getId)
-                .in(Tag::getTagName, articleVo.getTagNameList()));
-        List<ArticleTag> articleTags = articleTagDao.selectList(new LambdaQueryWrapper<ArticleTag>()
-                .select(ArticleTag::getId)
-                .eq(ArticleTag::getArticleId, Optional.ofNullable(articleVo.getId()).orElse(0)));
+    public void addOrUpdateArticle(ArticleVO articleVO) {
+        // 查询博客配置信息
+        CompletableFuture<WebsiteConfigVO> webConfig = CompletableFuture.supplyAsync(() -> blogInfoService.getWebsiteConfig());
 
-        if (Objects.nonNull(articleTags) && articleTags.size() > 0) {
-            for (ArticleTag articleTag : articleTags) {
-                articleTagDao.delete(new LambdaQueryWrapper<ArticleTag>()
-                        .eq(ArticleTag::getId, articleTag.getId()));
+        // 保存文章分类
+        Category category = saveArticleCategory(articleVO);
+        // 保存或修改文章
+        Article article = BeanCopyUtils.copyObject(articleVO, Article.class);
+        if (Objects.nonNull(category)) {
+            article.setCategoryId(category.getId());
+        }
+        // 设定默认文章封面
+        if (StrUtil.isBlank(article.getArticleCover())){
+            try {
+                article.setArticleCover(webConfig.get().getArticleCover());
+            } catch (Exception e) {
+                throw new BizException("设定默认文章封面失败");
             }
         }
+        article.setUserId(UserUtils.getLoginUser().getUserInfoId());
+        this.saveOrUpdate(article);
+        // 保存文章标签
+        saveArticleTag(articleVO, article.getId());
+    }
 
-        Article article = BeanCopyUtils.copyObject(articleVo, Article.class);
-        article.setCategoryId(category.getId());
+    @Override
+    public void deleteOrRestoreArticle(DeleteVO deleteVO) {
+        articleDao.update(new Article(), new LambdaUpdateWrapper<Article>()
+                .set(Article::getIsDelete, deleteVO.getIsDelete())
+                .set(Article::getIsTop, FALSE)
+                .in(Article::getId, deleteVO.getIdList()));
+    }
 
-        saveOrUpdate(article);
+    @Override
+    public void deleteArticle(List<Integer> articleIdList) {
+        articleTagDao.delete(new LambdaQueryWrapper<ArticleTag>().eq(ArticleTag::getArticleId, articleIdList));
+        articleDao.deleteBatchIds(articleIdList);
+    }
 
+    @Override
+    public List<String> exportArticles(List<Integer> articleIdList) {
+        // 查询文章信息
+        List<Article> articleList = articleDao.selectList(new LambdaQueryWrapper<Article>()
+                .select(Article::getArticleTitle, Article::getArticleContent)
+                .in(Article::getId, articleIdList));
+        // 写入文件并上传
+        List<String> urlList = new ArrayList<>();
+        for (Article article : articleList) {
+            try (ByteArrayInputStream inputStream = new ByteArrayInputStream(article.getArticleContent().getBytes())) {
+                String url = uploadStrategyContext.executeUploadStrategy(article.getArticleTitle() + FileExtEnum.MD.getExtName(), inputStream, FilePathEnum.MD.getPath());
+                urlList.add(url);
+            } catch (Exception e) {
+                log.error(StrUtil.format("导入文章失败,堆栈:{}", ExceptionUtil.stacktraceToString(e)));
+                throw new BizException("导出文章失败");
+            }
+        }
+        return urlList;
+    }
+
+    @Override
+    public String uploadImages(MultipartFile file) {
+        return uploadStrategyContext.executeUploadStrategy(file, ARTICLE.getPath());
+    }
+
+    @Override
+    public void importArticles(MultipartFile file, String type) {
+        articleImportStrategyContext.importArticles(file, type);
+    }
+
+    @Override
+    public void updateArticleWithTop(ArticleTopVO articleTopVO) {
+        articleDao.update(new Article(), new LambdaUpdateWrapper<Article>()
+                .set(Article::getIsTop, articleTopVO.getIsTop())
+                .eq(Article::getId, articleTopVO.getId()));
+    }
+
+    @Override
+    public void likeArticle(Integer articleId) {
+        // 判断是否点赞
+        String articleLikeKey = ARTICLE_USER_LIKE + UserUtils.getLoginUser().getUserInfoId();
+        if (redisService.sIsMember(articleLikeKey, articleId)) {
+            // 点过赞则删除文章id
+            redisService.sRemove(articleLikeKey, articleId);
+            // 文章点赞量-1
+            redisService.hDecr(ARTICLE_LIKE_COUNT, articleId.toString(), 1L);
+        } else {
+            // 未点赞则增加文章id
+            redisService.sAdd(articleLikeKey, articleId);
+            // 文章点赞量+1
+            redisService.hIncr(ARTICLE_LIKE_COUNT, articleId.toString(), 1L);
+        }
+    }
+
+    private void saveArticleTag(ArticleVO articleVO, Integer articleId) {
+        // 编辑文章则删除文章所有标签
+        if (Objects.nonNull(articleVO.getId())) {
+            articleTagDao.delete(new LambdaQueryWrapper<ArticleTag>().eq(ArticleTag::getArticleId, articleVO.getId()));
+        }
+        // 添加文章标签
+        List<String> tagNameList = articleVO.getTagNameList();
+        if (CollectionUtils.isNotEmpty(tagNameList)) {
+            // 查询已存在的标签
+            List<Tag> existTagList = tagService.list(new LambdaQueryWrapper<Tag>().in(Tag::getTagName, tagNameList));
+            List<String> existTagNameList = existTagList.stream().map(Tag::getTagName).collect(Collectors.toList());
+            List<Integer> existTagIdList = existTagList.stream().map(Tag::getId).collect(Collectors.toList());
+            // 对比新增不存在的标签
+            tagNameList.removeAll(existTagNameList);
+            if (CollectionUtils.isNotEmpty(tagNameList)) {
+                List<Tag> tagList = tagNameList.stream().map(item -> Tag.builder().tagName(item).build()).collect(Collectors.toList());
+                tagService.saveBatch(tagList);
+                List<Integer> tagIdList = tagList.stream().map(Tag::getId).collect(Collectors.toList());
+                existTagIdList.addAll(tagIdList);
+            }
+            // 提取标签id绑定文章
+            List<ArticleTag> articleTagList = existTagIdList.stream().map(item -> ArticleTag.builder()
+                    .articleId(articleId)
+                    .tagId(item)
+                    .build())
+                    .collect(Collectors.toList());
+            articleTagService.saveBatch(articleTagList);
+        }
+    }
+
+    private Category saveArticleCategory(ArticleVO articleVo) {
+        // 判断分类是否存在
+        Category category = categoryDao.selectOne(new LambdaQueryWrapper<Category>().eq(Category::getCategoryName, articleVo.getCategoryName()));
+        if (Objects.isNull(category) && !articleVo.getStatus().equals(DRAFT.getStatus())) {
+            category = Category.builder().categoryName(articleVo.getCategoryName()).build();
+            categoryDao.insert(category);
+        }
+        return category;
     }
 
     /**

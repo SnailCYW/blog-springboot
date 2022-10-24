@@ -10,7 +10,5 @@
             <result property="roleId" column="role_id" jdbcType="INTEGER"/>
     </resultMap>
 
-    <sql id="Base_Column_List">
-        id,user_id,role_id
-    </sql>
+
 </mapper>

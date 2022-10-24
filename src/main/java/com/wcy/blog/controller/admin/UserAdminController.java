@@ -1,5 +1,6 @@
 package com.wcy.blog.controller.admin;
 
+import com.wcy.blog.annotation.OptLog;
 import com.wcy.blog.dto.UserAreaDTO;
 import com.wcy.blog.dto.UserBackDTO;
 import com.wcy.blog.service.UserAuthService;
@@ -14,6 +15,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+
+import static com.wcy.blog.constant.OptTypeConst.UPDATE;
 
 /**
  * @author 吴崇远
@@ -41,9 +44,11 @@ public class UserAdminController {
     }
 
     @ApiOperation(value = "修改管理员密码", notes = "修改管理员密码")
+    @OptLog(optType = UPDATE)
     @PutMapping("/password")
     public Result<?> updateAdminPassword(@Valid @RequestBody PasswordVO passwordVo) {
         userAuthService.updateAdminPassword(passwordVo);
         return Result.ok();
     }
+
 }

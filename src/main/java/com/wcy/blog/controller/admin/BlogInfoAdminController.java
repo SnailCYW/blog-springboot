@@ -1,5 +1,6 @@
 package com.wcy.blog.controller.admin;
 
+import com.wcy.blog.annotation.OptLog;
 import com.wcy.blog.dto.BlogBackInfoDTO;
 import com.wcy.blog.service.BlogInfoService;
 import com.wcy.blog.strategy.context.UploadStrategyContext;
@@ -15,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 
+import static com.wcy.blog.constant.OptTypeConst.UPDATE;
 import static com.wcy.blog.enums.FilePathEnum.CONFIG;
 
 /**
@@ -47,6 +49,7 @@ public class BlogInfoAdminController {
     }
 
     @ApiOperation(value = "修改关于我信息", notes = "修改关于我信息")
+    @OptLog(optType = UPDATE)
     @PutMapping("/about")
     public Result<Object> updateAboutMe(@Valid @RequestBody BlogInfoVO blogInfoVO) {
         blogInfoService.updateAboutMe(blogInfoVO);
@@ -61,6 +64,7 @@ public class BlogInfoAdminController {
     }
 
     @ApiOperation(value = "更新网站配置", notes = "更新网站配置")
+    @OptLog(optType = UPDATE)
     @PutMapping("/website/config")
     public Result<Object> updateWebsiteConfig(@Valid @RequestBody WebsiteConfigVO websiteConfigVO) {
         blogInfoService.updateWebsiteConfig(websiteConfigVO);

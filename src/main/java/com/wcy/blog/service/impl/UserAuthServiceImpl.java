@@ -2,33 +2,50 @@ package com.wcy.blog.service.impl;
 
 import com.alibaba.fastjson2.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
+import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.wcy.blog.constant.CommonConst;
+import com.wcy.blog.dao.UserAuthDao;
+import com.wcy.blog.dao.UserInfoDao;
+import com.wcy.blog.dao.UserRoleDao;
+import com.wcy.blog.dto.EmailDTO;
 import com.wcy.blog.dto.UserAreaDTO;
 import com.wcy.blog.dto.UserBackDTO;
+import com.wcy.blog.dto.UserInfoDTO;
 import com.wcy.blog.entity.UserAuth;
+import com.wcy.blog.entity.UserInfo;
+import com.wcy.blog.entity.UserRole;
+import com.wcy.blog.enums.LoginTypeEnum;
 import com.wcy.blog.exception.BizException;
+import com.wcy.blog.service.BlogInfoService;
 import com.wcy.blog.service.RedisService;
 import com.wcy.blog.service.UserAuthService;
-import com.wcy.blog.dao.UserAuthDao;
+import com.wcy.blog.strategy.context.SocialLoginStrategyContext;
+import com.wcy.blog.util.IpUtils;
 import com.wcy.blog.util.PageUtils;
 import com.wcy.blog.util.UserUtils;
-import com.wcy.blog.vo.ConditionVO;
-import com.wcy.blog.vo.PageResult;
-import com.wcy.blog.vo.PasswordVO;
+import com.wcy.blog.vo.*;
+import org.springframework.amqp.core.Message;
+import org.springframework.amqp.core.MessageProperties;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-import static com.wcy.blog.constant.RedisPrefixConst.USER_AREA;
-import static com.wcy.blog.constant.RedisPrefixConst.VISITOR_AREA;
+import static com.wcy.blog.constant.MQPrefixConst.EMAIL_EXCHANGE;
+import static com.wcy.blog.constant.RedisPrefixConst.*;
+import static com.wcy.blog.enums.RoleEnum.USER;
 import static com.wcy.blog.enums.UserAreaTypeEnum.getUserAreaType;
-
+import static com.wcy.blog.util.CommonUtils.checkEmail;
+import static com.wcy.blog.util.CommonUtils.getRandomCode;
 /**
  * @author Snail
  * @description 针对表【tb_user_auth】的数据库操作Service实现
@@ -41,7 +58,19 @@ public class UserAuthServiceImpl extends ServiceImpl<UserAuthDao, UserAuth>
     @Autowired
     private UserAuthDao userAuthDao;
     @Autowired
+    private UserInfoDao userInfoDao;
+    @Autowired
+    private UserRoleDao userRoleDao;
+    @Autowired
     private RedisService redisService;
+    @Autowired
+    private BlogInfoService blogInfoService;
+    @Autowired
+    private RabbitTemplate rabbitTemplate;
+    @Autowired
+    private HttpServletRequest request;
+    @Autowired
+    private SocialLoginStrategyContext socialLoginStrategyContext;
 
     @Override
     public PageResult<UserBackDTO> listUsersBack(ConditionVO condition) {
@@ -101,6 +130,83 @@ public class UserAuthServiceImpl extends ServiceImpl<UserAuthDao, UserAuth>
         } else {
             throw new BizException("旧密码不正确");
         }
+    }
+
+    @Override
+    public void sendCode(String username) {
+        // 校验账号是否合法
+        if (!checkEmail(username)) {
+            throw new BizException("邮箱已被注册！");
+        }
+        // 生成六位随机验证码发送
+        String code = getRandomCode();
+        // 发送验证码
+        EmailDTO emailDTO = EmailDTO.builder()
+                .email(username)
+                .subject("蜗牛客栈注册验证")
+                .content("您的验证码为 " + code + " 有效期15分钟，请不要告诉他人哦！")
+                .build();
+        rabbitTemplate.convertAndSend(EMAIL_EXCHANGE, "*", new Message(JSON.toJSONBytes(emailDTO), new MessageProperties()));
+        // 将验证码存入redis，设置过期时间为15分钟
+        redisService.set(USER_CODE_KEY + username, code, CODE_EXPIRE_TIME);
+    }
+
+    @Override
+    public void userRegister(UserVO user) {
+        // 校验账号是否合法
+        if (userIsExisted(user)) {
+            throw new BizException("邮箱已被注册！");
+        }
+        // 新增用户信息
+        UserInfo userInfo = UserInfo.builder()
+                .email(user.getUsername())
+                .nickname(CommonConst.DEFAULT_NICKNAME + IdWorker.getId())
+                .avatar(blogInfoService.getWebsiteConfig().getUserAvatar())
+                .build();
+        userInfoDao.insert(userInfo);
+        // 绑定用户角色
+        UserRole userRole = UserRole.builder()
+                .userId(userInfo.getId())
+                .roleId(USER.getRoleId())
+                .build();
+        userRoleDao.insert(userRole);
+        // 新增用户账号
+        String ipAddress = IpUtils.getIpAddress(request);
+        UserAuth userAuth = UserAuth.builder()
+                .userInfoId(userInfo.getId())
+                .username(user.getUsername())
+                .password(BCrypt.hashpw(user.getPassword(), BCrypt.gensalt()))
+                .loginType(LoginTypeEnum.EMAIL.getType())
+                /*.ipAddress(ipAddress)
+                .ipSource(IpUtils.getIpSource(ipAddress))*/
+                .build();
+        userAuthDao.insert(userAuth);
+    }
+
+    @Override
+    public UserInfoDTO loginByQQ(QQLoginVO qqLoginVO) {
+        return socialLoginStrategyContext.executeLoginStrategy(JSON.toJSONString(qqLoginVO), LoginTypeEnum.QQ);
+    }
+
+    @Override
+    public void updatePassword(UserVO user) {
+        if (!userIsExisted(user)) {
+            throw new BizException("邮箱尚未注册！");
+        }
+        userAuthDao.update(new UserAuth(), new LambdaUpdateWrapper<UserAuth>()
+                .set(UserAuth::getPassword, BCrypt.hashpw(user.getPassword(), BCrypt.gensalt()))
+                .eq(UserAuth::getUsername, user.getUsername()));
+    }
+
+    private boolean userIsExisted(UserVO user) {
+        if (!user.getCode().equals(redisService.get(USER_CODE_KEY+user.getUsername()))) {
+            throw new BizException("验证码错误！");
+        }
+        //查询用户名是否存在
+        UserAuth userAuth = userAuthDao.selectOne(new LambdaQueryWrapper<UserAuth>()
+                .select(UserAuth::getUsername)
+                .eq(UserAuth::getUsername, user.getUsername()));
+        return Objects.nonNull(userAuth);
     }
 }
 

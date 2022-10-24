@@ -16,7 +16,7 @@ import java.io.InputStream;
  * @version 1.0
  * @Date: 2022/10/21/9:41
  */
-@Service("OssUploadStrategyImpl")
+@Service("ossUploadStrategyImpl")
 public class OssUploadStrategyImpl extends AbstractUploadStrategyImpl {
 
     @Autowired

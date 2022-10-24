@@ -3,7 +3,7 @@ package com.wcy.blog.dao;
 import com.wcy.blog.dto.*;
 import com.wcy.blog.entity.Article;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.wcy.blog.vo.ArticleVo;
+import com.wcy.blog.vo.ArticleVO;
 import com.wcy.blog.vo.ConditionVO;
 import org.apache.ibatis.annotations.Param;
 
@@ -24,7 +24,7 @@ public interface ArticleDao extends BaseMapper<Article> {
                                          @Param("size") Long size,
                                          @Param("condition") ConditionVO condition);
 
-    ArticleVo getArticleBackById(@Param("articleId") Integer articleId);
+    ArticleVO getArticleBackById(@Param("articleId") Integer articleId);
 
     List<ArticleHomeDTO> listHomeArticles(@Param("current") Long current,
                                           @Param("size") Long size);

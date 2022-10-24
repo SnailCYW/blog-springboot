@@ -65,7 +65,14 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         return convertUserDetail(userAuth, request);
     }
 
-    private UserDetails convertUserDetail(UserAuth user, HttpServletRequest request) {
+    /**
+     * 封装用户登录信息
+     *
+     * @param user    用户账号
+     * @param request 请求
+     * @return 用户登录信息
+     */
+    public UserDetailDTO convertUserDetail(UserAuth user, HttpServletRequest request) {
         // 查询账号信息
         UserInfo userInfo = userInfoDao.selectById(user.getUserInfoId());
         // 查询账号角色

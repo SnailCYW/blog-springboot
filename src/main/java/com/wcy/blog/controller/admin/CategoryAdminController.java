@@ -1,5 +1,6 @@
 package com.wcy.blog.controller.admin;
 
+import com.wcy.blog.annotation.OptLog;
 import com.wcy.blog.dto.CategoryBackDTO;
 import com.wcy.blog.dto.CategoryOptionDTO;
 import com.wcy.blog.service.CategoryService;
@@ -14,6 +15,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+
+import static com.wcy.blog.constant.OptTypeConst.*;
 
 /**
  * @author 吴崇远
@@ -41,6 +44,7 @@ public class CategoryAdminController {
     }
 
     @ApiOperation(value = "添加或修改分类", notes = "添加或修改分类")
+    @OptLog(optType = ADD_OR_UPDATE)
     @PostMapping()
     public Result<Object> addOrUpdateCategory(@Valid @RequestBody CategoryVO categoryVO) {
         categoryService.addOrUpdateCategory(categoryVO);
@@ -48,6 +52,7 @@ public class CategoryAdminController {
     }
 
     @ApiOperation(value = "删除分类", notes = "删除分类")
+    @OptLog(optType = DELETE)
     @DeleteMapping()
     public Result<Object> deleteCategories(@RequestBody List<Integer> categoryIdList) {
         categoryService.deleteCategories(categoryIdList);

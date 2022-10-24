@@ -1,5 +1,6 @@
 package com.wcy.blog.controller.admin;
 
+import com.wcy.blog.annotation.OptLog;
 import com.wcy.blog.dto.TagBackDTO;
 import com.wcy.blog.dto.TagDTO;
 import com.wcy.blog.service.TagService;
@@ -14,6 +15,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+
+import static com.wcy.blog.constant.OptTypeConst.*;
 
 /**
  * @author 吴崇远
@@ -41,6 +44,7 @@ public class TagAdminController {
     }
 
     @ApiOperation(value = "添加或修改标签", notes = "添加或修改标签")
+    @OptLog(optType = ADD_OR_UPDATE)
     @PostMapping()
     public Result<Object> addOrModifyTags(@Valid @RequestBody TagVO tagVO) {
         tagService.addOrModifyTags(tagVO);
@@ -48,6 +52,7 @@ public class TagAdminController {
     }
 
     @ApiOperation(value = "删除标签", notes = "删除标签")
+    @OptLog(optType = DELETE)
     @DeleteMapping()
     public Result<Object> deleteTags(@Valid @RequestBody List<Integer> tagIdList) {
         tagService.deleteTags(tagIdList);
