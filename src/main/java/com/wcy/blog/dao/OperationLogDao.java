@@ -15,9 +15,6 @@ import org.apache.ibatis.annotations.Param;
 */
 public interface OperationLogDao extends BaseMapper<OperationLog> {
 
-    PageResult<OperationLogDTO> listOperationLogs(@Param("current") Long current,
-                                                  @Param("size") Long size,
-                                                  @Param("condition") ConditionVO condition);
 }
 
 
