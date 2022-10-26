@@ -5,19 +5,107 @@
 <mapper namespace="com.wcy.blog.dao.TalkDao">
 
     <resultMap id="BaseResultMap" type="com.wcy.blog.entity.Talk">
-            <id property="id" column="id" jdbcType="INTEGER"/>
-            <result property="userId" column="user_id" jdbcType="INTEGER"/>
-            <result property="content" column="content" jdbcType="VARCHAR"/>
-            <result property="images" column="images" jdbcType="VARCHAR"/>
-            <result property="isTop" column="is_top" jdbcType="TINYINT"/>
-            <result property="status" column="status" jdbcType="TINYINT"/>
-            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
-            <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <id property="id" column="id" jdbcType="INTEGER"/>
+        <result property="userId" column="user_id" jdbcType="INTEGER"/>
+        <result property="content" column="content" jdbcType="VARCHAR"/>
+        <result property="images" column="images" jdbcType="VARCHAR"/>
+        <result property="isTop" column="is_top" jdbcType="TINYINT"/>
+        <result property="status" column="status" jdbcType="TINYINT"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
     </resultMap>
 
-    <sql id="Base_Column_List">
-        id,user_id,content,
-        images,is_top,status,
-        create_time,update_time
-    </sql>
+    <select id="listTalksBack" resultType="com.wcy.blog.dto.TalkBackDTO">
+        SELECT tt.id,
+        content,
+        nickname,
+        avatar,
+        images,
+        tt.create_time,
+        is_top,
+        `status`
+        FROM tb_user_info tui
+        JOIN (
+        SELECT id,
+        content,
+        user_id,
+        images,
+        create_time,
+        is_top,
+        `status`
+        FROM tb_talk
+        <where>
+            <if test="condition.status != null">
+                `status` = #{condition.status}
+            </if>
+        </where>
+        ) tt ON user_id = tui.id
+        ORDER BY create_time DESC
+        LIMIT #{current}, #{size}
+    </select>
+
+    <select id="listTalksBackById" resultType="com.wcy.blog.dto.TalkBackDTO">
+        SELECT tt.id,
+               content,
+               nickname,
+               avatar,
+               images,
+               tt.create_time,
+               is_top,
+               `status`
+        FROM tb_user_info tui
+        JOIN (
+            SELECT id,
+                   content,
+                   user_id,
+                   images,
+                   create_time,
+                   is_top,
+                   `status`
+            FROM tb_talk
+            WHERE id = #{talkId}
+        ) tt ON user_id = tui.id
+    </select>
+    <select id="listTalks" resultType="com.wcy.blog.dto.TalkDTO">
+        SELECT tt.id,
+        content,
+        nickname,
+        avatar,
+        images,
+        tt.create_time,
+        is_top
+        FROM tb_user_info tui
+        JOIN (
+        SELECT id,
+        content,
+        user_id,
+        images,
+        create_time,
+        is_top
+        FROM tb_talk
+        WHERE `status` = 1
+        ) tt ON user_id = tui.id
+        ORDER BY is_top DESC, create_time DESC
+        LIMIT #{current}, #{size}
+    </select>
+    <select id="listTalkById" resultType="com.wcy.blog.dto.TalkDTO">
+        SELECT tt.id,
+               content,
+               nickname,
+               avatar,
+               images,
+               tt.create_time,
+               is_top
+        FROM tb_user_info tui
+                 JOIN (
+            SELECT id,
+                   content,
+                   user_id,
+                   images,
+                   create_time,
+                   is_top
+            FROM tb_talk
+            WHERE id = #{talkId}
+        ) tt ON user_id = tui.id
+    </select>
 </mapper>

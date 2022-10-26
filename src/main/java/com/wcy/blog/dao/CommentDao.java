@@ -1,9 +1,6 @@
 package com.wcy.blog.dao;
 
-import com.wcy.blog.dto.CommentBackDTO;
-import com.wcy.blog.dto.CommentDTO;
-import com.wcy.blog.dto.ReplyCountDTO;
-import com.wcy.blog.dto.ReplyDTO;
+import com.wcy.blog.dto.*;
 import com.wcy.blog.entity.Comment;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.wcy.blog.vo.CommentVO;
@@ -11,6 +8,7 @@ import com.wcy.blog.vo.ConditionVO;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 /**
 * @author Snail
@@ -37,6 +35,10 @@ public interface CommentDao extends BaseMapper<Comment> {
     List<ReplyDTO> listAllRepliesByCommentId(@Param("current") Long current,
                                              @Param("size") Long size,
                                              @Param("commentId") Integer commentId);
+
+    List<CommentCountDTO> listCommentCountByTopicIds(@Param("talkIdList") List<Integer> talkIdList);
+
+    Integer listCommentCountByTopicId(@Param("talkId") Integer talkId);
 }
 
 

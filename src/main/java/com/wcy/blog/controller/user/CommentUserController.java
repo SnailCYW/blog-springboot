@@ -51,7 +51,7 @@ public class CommentUserController {
         return Result.ok();
     }
 
-    @ApiOperation(value = "查询评论", notes = "查询评论")
+    @ApiOperation(value = "查询评论回复", notes = "查询评论回复")
     @GetMapping("/{commentId}/replies")
     public Result<List<ReplyDTO>> listCommentByParentId(@PathVariable("commentId") Integer commentId) {
         return Result.ok(commentService.listCommentByParentId(commentId));

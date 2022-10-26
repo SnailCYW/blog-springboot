@@ -194,4 +194,21 @@
           AND parent_id = #{commentId}
         LIMIT #{current}, #{size}
     </select>
+    <select id="listCommentCountByTopicIds" resultType="com.wcy.blog.dto.CommentCountDTO">
+        SELECT topic_id id,
+               COUNT(*) commentCount
+        FROM tb_comment
+        WHERE
+        is_review = 1
+        AND topic_id IN
+        <foreach open="(" collection="talkIdList" item="talkId" separator="," close=")">
+            #{talkId}
+        </foreach>
+        GROUP BY topic_id
+    </select>
+    <select id="listCommentCountByTopicId" resultType="java.lang.Integer">
+        SELECT COUNT(*)
+        FROM tb_comment
+        WHERE topic_id = #{talkId}
+    </select>
 </mapper>
