@@ -1,30 +1,30 @@
-package com.wcy.blog.entity;
+package com.wcy.blog.dto;
 
-import com.baomidou.mybatisplus.annotation.*;
-
-import java.io.Serializable;
-import java.time.LocalDateTime;
-import java.util.Date;
-
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.wcy.blog.entity.Message;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+import java.util.Date;
+
 /**
- * 
- * @TableName tb_message
+ * @author 吴崇远
+ * @version 1.0
+ * @Date: 2022/10/25/10:33
  */
-@TableName(value ="tb_message")
 @Data
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Message implements Serializable {
+@Builder
+public class MessageBackDTO {
+
     /**
      * 主键id
      */
-    @TableId(type = IdType.AUTO)
     private Integer id;
 
     /**
@@ -53,11 +53,6 @@ public class Message implements Serializable {
     private String ipSource;
 
     /**
-     * 弹幕速度
-     */
-    private Integer time;
-
-    /**
      * 是否审核
      */
     private Integer isReview;
@@ -65,15 +60,7 @@ public class Message implements Serializable {
     /**
      * 发布时间
      */
-    @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createTime;
 
-    /**
-     * 修改时间
-     */
-    @TableField(fill = FieldFill.UPDATE)
-    private LocalDateTime updateTime;
 
-    @TableField(exist = false)
-    private static final long serialVersionUID = 1L;
 }

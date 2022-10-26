@@ -5,17 +5,17 @@
 <mapper namespace="com.wcy.blog.dao.CommentDao">
 
     <resultMap id="BaseResultMap" type="com.wcy.blog.entity.Comment">
-            <id property="id" column="id" jdbcType="INTEGER"/>
-            <result property="userId" column="user_id" jdbcType="INTEGER"/>
-            <result property="topicId" column="topic_id" jdbcType="INTEGER"/>
-            <result property="commentContent" column="comment_content" jdbcType="VARCHAR"/>
-            <result property="replyUserId" column="reply_user_id" jdbcType="INTEGER"/>
-            <result property="parentId" column="parent_id" jdbcType="INTEGER"/>
-            <result property="type" column="type" jdbcType="TINYINT"/>
-            <result property="isDelete" column="is_delete" jdbcType="TINYINT"/>
-            <result property="isReview" column="is_review" jdbcType="TINYINT"/>
-            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
-            <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <id property="id" column="id" jdbcType="INTEGER"/>
+        <result property="userId" column="user_id" jdbcType="INTEGER"/>
+        <result property="topicId" column="topic_id" jdbcType="INTEGER"/>
+        <result property="commentContent" column="comment_content" jdbcType="VARCHAR"/>
+        <result property="replyUserId" column="reply_user_id" jdbcType="INTEGER"/>
+        <result property="parentId" column="parent_id" jdbcType="INTEGER"/>
+        <result property="type" column="type" jdbcType="TINYINT"/>
+        <result property="isDelete" column="is_delete" jdbcType="TINYINT"/>
+        <result property="isReview" column="is_review" jdbcType="TINYINT"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
     </resultMap>
 
     <sql id="Base_Column_List">
@@ -24,4 +24,174 @@
         type,is_delete,is_review,
         create_time,update_time
     </sql>
+    <select id="getCountBack" resultType="java.lang.Integer">
+        SELECT COUNT(*)
+        FROM tb_article ta
+        RIGHT JOIN (
+        SELECT topic_id,
+        user_id,
+        reply_user_id,
+        comment_content,
+        create_time,
+        id,
+        is_review,
+        `type`
+        FROM tb_comment
+        <where>
+            1 = 1
+            <if test="condition.type != null">
+                AND `type` = #{condition.type}
+            </if>
+            <if test="condition.isReview != null">
+                AND is_review = #{condition.isReview}
+            </if>
+        </where>
+        ) tc ON ta.id = tc.topic_id
+        LEFT JOIN tb_user_info tuser ON tuser.id = tc.user_id
+        LEFT JOIN tb_user_info trpuser ON trpuser.id = tc.reply_user_id
+        <where>
+            <if test="condition.keywords != null">
+                tuser.nickname LIKE CONCAT('%',#{condition.keywords},'%')
+            </if>
+        </where>
+    </select>
+
+
+    <select id="listCommentBack" resultType="com.wcy.blog.dto.CommentBackDTO">
+        SELECT tc.id,
+        tuser.avatar,
+        tuser.nickname,
+        trpuser.nickname reply_nickname,
+        ta.article_title,
+        comment_content,
+        tc.`type`,
+        is_review,
+        tc.create_time
+        FROM tb_article ta
+        RIGHT JOIN (
+        SELECT topic_id,
+        user_id,
+        reply_user_id,
+        comment_content,
+        create_time,
+        id,
+        is_review,
+        `type`
+        FROM tb_comment
+        <where>
+            1 = 1
+            <if test="condition.type != null">
+                AND `type` = #{condition.type}
+            </if>
+            <if test="condition.isReview != null">
+                AND is_review = #{condition.isReview}
+            </if>
+        </where>
+        ) tc ON ta.id = tc.topic_id
+        LEFT JOIN tb_user_info tuser ON tuser.id = tc.user_id
+        LEFT JOIN tb_user_info trpuser ON trpuser.id = tc.reply_user_id
+        <where>
+            <if test="condition.keywords != null">
+                tuser.nickname LIKE CONCAT('%',#{condition.keywords},'%')
+            </if>
+        </where>
+        ORDER BY tc.create_time DESC
+        LIMIT #{current}, #{size}
+    </select>
+
+    <select id="listComments" resultType="com.wcy.blog.dto.CommentDTO">
+        SELECT u.nickname,
+        u.avatar,
+        u.web_site,
+        c.user_id,
+        c.id,
+        c.comment_content,
+        c.create_time
+        FROM
+        tb_comment c
+        JOIN tb_user_info u ON c.user_id = u.id
+        <where>
+            <if test="commentVO.topicId != null">
+                topic_id = #{commentVO.topicId}
+            </if>
+            AND type = #{commentVO.type}
+            AND c.is_review = 1
+            AND parent_id IS NULL
+        </where>
+        ORDER BY
+        c.id DESC
+        LIMIT #{current},#{size}
+    </select>
+
+    <select id="listReplies" resultType="com.wcy.blog.dto.ReplyDTO">
+        SELECT
+        *
+        FROM
+        (
+        SELECT
+        c.user_id,
+        u.nickname,
+        u.avatar,
+        u.web_site,
+        c.reply_user_id,
+        r.nickname AS reply_nickname,
+        r.web_site AS reply_web_site,
+        c.id,
+        c.parent_id,
+        c.comment_content,
+        c.create_time,
+        row_number () over ( PARTITION BY parent_id ORDER BY create_time ASC ) row_num
+        FROM
+        tb_comment c
+        JOIN tb_user_info u ON c.user_id = u.id
+        JOIN tb_user_info r ON c.reply_user_id = r.id
+        WHERE
+        c.is_review = 1
+        AND
+        parent_id IN
+        (
+        <foreach collection="commentIdList" item="commentId" separator=",">
+            #{commentId}
+        </foreach>
+        )
+        ) t
+        WHERE
+        4 > row_num
+    </select>
+
+    <select id="listReplyCountByCommentId" resultType="com.wcy.blog.dto.ReplyCountDTO">
+        SELECT
+        parent_id as comment_id,
+        count(1) AS reply_count
+        FROM
+        tb_comment
+        WHERE
+        is_review = 1
+        AND
+        parent_id IN
+        <foreach open="(" collection="commentIdList" item="commentId" separator="," close=")">
+            #{commentId}
+        </foreach>
+        GROUP BY
+        parent_id
+    </select>
+    <select id="listAllRepliesByCommentId" resultType="com.wcy.blog.dto.ReplyDTO">
+        SELECT c.user_id,
+               u.nickname,
+               u.avatar,
+               u.web_site,
+               c.reply_user_id,
+               r.nickname AS reply_nickname,
+               r.web_site AS reply_web_site,
+               c.id,
+               c.parent_id,
+               c.comment_content,
+               c.create_time
+        FROM tb_comment c
+                 JOIN tb_user_info u ON c.user_id = u.id
+                 JOIN tb_user_info r ON c.reply_user_id = r.id
+        WHERE c.is_review = 1
+          AND parent_id = #{commentId}
+        LIMIT #{current}, #{size}
+    </select>
 </mapper>
