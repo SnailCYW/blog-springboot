@@ -23,5 +23,5 @@ public interface FriendLinkService extends IService<FriendLink> {
 
     void addOrUpdateLink(FriendLinkVO friendLinkVO);
 
-    PageResult<FriendLinkDTO> listLinks();
+    List<FriendLinkDTO> listLinks();
 }

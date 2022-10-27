@@ -52,10 +52,9 @@ public class FriendLinkServiceImpl extends ServiceImpl<FriendLinkDao, FriendLink
     }
 
     @Override
-    public PageResult<FriendLinkDTO> listLinks() {
-        Page<FriendLink> page = new Page<>(PageUtils.getLimitCurrent(), PageUtils.getSize());
-        Page<FriendLink> friendLinkPage = friendLinkDao.selectPage(page, new LambdaQueryWrapper<FriendLink>());
-        return new PageResult<>((int) friendLinkPage.getTotal(), BeanCopyUtils.copyList(friendLinkPage.getRecords(), FriendLinkDTO.class));
+    public List<FriendLinkDTO> listLinks() {
+        List<FriendLink> friendLinkList = friendLinkDao.selectList(new LambdaQueryWrapper<FriendLink>());
+        return BeanCopyUtils.copyList(friendLinkList, FriendLinkDTO.class);
     }
 }
 

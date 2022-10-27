@@ -13,12 +13,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 /**
  * @author 吴崇远
  * @version 1.0
  * @Date: 2022/10/25/9:39
  */
-@Api(tags = "分类模块")
+@Api(tags = "友链模块")
 @RestController
 @RequestMapping("/links")
 public class LinkUserController {
@@ -28,7 +30,7 @@ public class LinkUserController {
 
     @ApiOperation(value = "查看友链列表", notes = "查看友链列表")
     @GetMapping
-    public Result<PageResult<FriendLinkDTO>> listLinks() {
+    public Result<List<FriendLinkDTO>> listLinks() {
         return Result.ok(friendLinkService.listLinks());
     }
 

@@ -24,7 +24,7 @@ import static com.wcy.blog.constant.OptTypeConst.*;
  * @version 1.0
  * @Date: 2022/10/24/22:34
  */
-@Api(tags = "分类模块")
+@Api(tags = "友链模块")
 @RestController
 @RequestMapping("/admin/links")
 public class LinkAdminController {
