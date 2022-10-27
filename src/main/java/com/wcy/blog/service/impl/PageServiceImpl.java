@@ -26,6 +26,22 @@ public class PageServiceImpl extends ServiceImpl<PageDao, Page>
     public List<PageVO> listPages() {
         return pageDao.listPages();
     }
+
+    @Override
+    public void addOrUpdatePage(PageVO pageVO) {
+        Page page = Page.builder()
+                .id(pageVO.getId())
+                .pageCover(pageVO.getPageCover())
+                .pageLabel(pageVO.getPageLabel())
+                .pageName(pageVO.getPageName())
+                .build();
+        this.saveOrUpdate(page);
+    }
+
+    @Override
+    public void deletePage(Integer pageId) {
+        pageDao.deleteById(pageId);
+    }
 }
 
 

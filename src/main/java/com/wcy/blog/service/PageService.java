@@ -15,4 +15,7 @@ public interface PageService extends IService<Page> {
 
     List<PageVO> listPages();
 
+    void addOrUpdatePage(PageVO pageVO);
+
+    void deletePage(Integer pageId);
 }
