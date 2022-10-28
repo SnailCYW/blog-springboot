@@ -1,5 +1,6 @@
 package com.wcy.blog.controller.user;
 
+import com.wcy.blog.annotation.AccessLimit;
 import com.wcy.blog.annotation.OptLog;
 import com.wcy.blog.dto.MessageDTO;
 import com.wcy.blog.service.MessageService;
@@ -35,6 +36,7 @@ public class MessageUserController {
     }
 
     @ApiOperation(value = "添加留言", notes = "添加留言")
+    @AccessLimit(seconds = 60, maxCount = 1)
     @OptLog(optType = ADD)
     @PostMapping
     public Result<List<MessageDTO>> addMessage(@Valid @RequestBody MessageVO messageVO) {

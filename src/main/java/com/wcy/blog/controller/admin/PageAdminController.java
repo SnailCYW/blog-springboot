@@ -1,5 +1,6 @@
 package com.wcy.blog.controller.admin;
 
+import com.wcy.blog.annotation.OptLog;
 import com.wcy.blog.dto.TagBackDTO;
 import com.wcy.blog.service.PageService;
 import com.wcy.blog.vo.ConditionVO;
@@ -14,6 +15,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+
+import static com.wcy.blog.constant.OptTypeConst.*;
 
 /**
  * @author 吴崇远
@@ -35,6 +38,7 @@ public class PageAdminController {
     }
 
     @ApiOperation(value = "保存或更新页面", notes = "保存或更新页面")
+    @OptLog(optType = ADD_OR_UPDATE)
     @PostMapping()
     public Result<?> addOrUpdatePage(@Valid @RequestBody PageVO pageVO) {
         pageService.addOrUpdatePage(pageVO);
@@ -42,6 +46,7 @@ public class PageAdminController {
     }
 
     @ApiOperation(value = "删除页面", notes = "删除页面")
+    @OptLog(optType = DELETE)
     @ApiImplicitParam(name = "pageId", value = "页面id", required = true, dataType = "Integer")
     @DeleteMapping("/{pageId}")
     public Result<?> deletePage(@PathVariable("pageId") Integer pageId) {

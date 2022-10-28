@@ -1,7 +1,13 @@
 package com.wcy.blog.service;
 
+import com.wcy.blog.dto.LabelOptionDTO;
+import com.wcy.blog.dto.ResourceDTO;
 import com.wcy.blog.entity.Resource;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.wcy.blog.vo.ConditionVO;
+import com.wcy.blog.vo.ResourceVO;
+
+import java.util.List;
 
 /**
 * @author Snail
@@ -10,4 +16,11 @@ import com.baomidou.mybatisplus.extension.service.IService;
 */
 public interface ResourceService extends IService<Resource> {
 
+    List<ResourceDTO> listResourcesBack(ConditionVO condition);
+
+    void addOrUpdateResource(ResourceVO resourceVO);
+
+    void deleteResource(Integer resourceId);
+
+    List<LabelOptionDTO> listRoleResources();
 }

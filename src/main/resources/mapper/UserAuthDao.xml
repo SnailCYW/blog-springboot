@@ -71,6 +71,7 @@
                 login_type = #{condition.type}
             </if>
         </where>
+        ORDER BY tui.id ASC, tr.id ASC
         LIMIT #{current}, #{size}
     </select>
 </mapper>

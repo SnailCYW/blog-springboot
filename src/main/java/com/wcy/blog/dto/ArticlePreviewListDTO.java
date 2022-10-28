@@ -18,7 +18,7 @@ import java.util.List;
 @NoArgsConstructor
 public class ArticlePreviewListDTO {
 
-    private List<ArticlePreviewDTO> articlePreviewDTO;
+    private List<ArticlePreviewDTO> articlePreviewDTOList;
 
     private String name;
 

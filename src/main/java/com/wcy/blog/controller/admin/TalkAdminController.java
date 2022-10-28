@@ -1,5 +1,6 @@
 package com.wcy.blog.controller.admin;
 
+import com.wcy.blog.annotation.OptLog;
 import com.wcy.blog.dto.TalkBackDTO;
 import com.wcy.blog.service.TalkService;
 import com.wcy.blog.vo.ConditionVO;
@@ -16,6 +17,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.util.List;
+
+import static com.wcy.blog.constant.OptTypeConst.*;
 
 /**
  * @author 吴崇远
@@ -37,6 +40,7 @@ public class TalkAdminController {
     }
 
     @ApiOperation(value = "保存或修改说说", notes = "保存或修改说说")
+    @OptLog(optType = ADD_OR_UPDATE)
     @PostMapping
     public Result<?> addOrUpdateTalk(@Valid @RequestBody TalkVO talkVO) {
         talkService.addOrUpdateTalk(talkVO);
@@ -44,6 +48,7 @@ public class TalkAdminController {
     }
 
     @ApiOperation(value = "删除说说", notes = "删除说说")
+    @OptLog(optType = DELETE)
     @ApiImplicitParam(value = "talkIdList", name = "说说id", required = true, dataType = "List<Integer>")
     @DeleteMapping
     public Result<?> deleteTalks(@RequestBody List<Integer> talkIdList) {

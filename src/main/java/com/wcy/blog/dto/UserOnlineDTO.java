@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 /**
  * @author 吴崇远
  * @version 1.0
@@ -24,7 +26,7 @@ public class UserOnlineDTO {
 
     private String ipSource;
 
-    private String lastLoginTime;
+    private LocalDateTime lastLoginTime;
 
     private String nickname;
 

@@ -57,7 +57,7 @@ public class ArticleUserController {
         return Result.ok(articleService.searchArticles(condition));
     }
 
-    @ApiOperation(value = "搜索文章", notes = "搜索文章")
+    @ApiOperation(value = "点赞文章", notes = "点赞文章")
     @ApiImplicitParam(name = "articleId", value = "文章id", required = true, dataType = "Integer")
     @PostMapping("/{articleId}/like")
     public Result<?> likeArticle(@PathVariable("articleId") Integer articleId) {

@@ -1,5 +1,6 @@
 package com.wcy.blog.controller.user;
 
+import com.wcy.blog.annotation.AccessLimit;
 import com.wcy.blog.annotation.OptLog;
 import com.wcy.blog.dto.CommentDTO;
 import com.wcy.blog.dto.ReplyDTO;
@@ -37,6 +38,7 @@ public class CommentUserController {
     }
 
     @ApiOperation(value = "添加评论", notes = "添加评论")
+    @AccessLimit(seconds = 20, maxCount = 1)
     @OptLog(optType = ADD)
     @PostMapping
     public Result<?> addComment(@Valid @RequestBody CommentVO commentVO) {

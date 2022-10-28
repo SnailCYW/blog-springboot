@@ -5,7 +5,11 @@ import com.baomidou.mybatisplus.annotation.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Date;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * 
@@ -13,6 +17,9 @@ import lombok.Data;
  */
 @TableName(value ="tb_comment")
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Comment implements Serializable {
     /**
      * 主键

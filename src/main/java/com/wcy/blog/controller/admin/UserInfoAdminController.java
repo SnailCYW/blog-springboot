@@ -1,5 +1,6 @@
 package com.wcy.blog.controller.admin;
 
+import com.wcy.blog.annotation.OptLog;
 import com.wcy.blog.dto.UserOnlineDTO;
 import com.wcy.blog.service.UserInfoService;
 import com.wcy.blog.vo.*;
@@ -9,6 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+
+import static com.wcy.blog.constant.OptTypeConst.ADD;
+import static com.wcy.blog.constant.OptTypeConst.UPDATE;
 
 /**
  * @author 吴崇远
@@ -24,6 +28,7 @@ public class UserInfoAdminController {
     private UserInfoService userInfoService;
 
     @ApiOperation(value = "修改用户禁用状态", notes = "修改用户禁用状态")
+    @OptLog(optType = UPDATE)
     @PutMapping("/disable")
     public Result<?> updateUserDisable(@Valid @RequestBody UserDisableVO userDisableVO) {
         userInfoService.updateUserDisable(userDisableVO);
@@ -37,6 +42,7 @@ public class UserInfoAdminController {
     }
 
     @ApiOperation(value = "修改用户角色", notes = "修改用户角色")
+    @OptLog(optType = UPDATE)
     @PutMapping("/role")
     public Result<?> updateUserRole(@Valid @RequestBody UserRoleVO userRoleVO) {
         userInfoService.updateUserRole(userRoleVO);

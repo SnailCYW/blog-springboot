@@ -136,7 +136,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleDao, Article> impleme
                     .select(Tag::getTagName)
                     .eq(Tag::getId, condition.getTagId())).getTagName();
         }
-        return ArticlePreviewListDTO.builder().articlePreviewDTO(articlePreviewDTOList).name(name).build();
+        return ArticlePreviewListDTO.builder().articlePreviewDTOList(articlePreviewDTOList).name(name).build();
     }
 
     @Override

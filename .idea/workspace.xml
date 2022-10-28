@@ -23,10 +23,46 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8cc005f7-2f92-48ab-8eba-9892376e1585" name="变更" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/wcy/blog/controller/admin/PageAdminController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/wcy/blog/entity/Page.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/wcy/blog/entity/Page.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/wcy/blog/service/PageService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/wcy/blog/service/PageService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/wcy/blog/service/impl/PageServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/wcy/blog/service/impl/PageServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/wcy/blog/config/RabbitMQConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/wcy/blog/consumer/EmailConsumer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/wcy/blog/controller/admin/ResourceAdminController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/wcy/blog/controller/admin/RoleAdminController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/wcy/blog/dto/ResourceDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/wcy/blog/dto/RoleDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/wcy/blog/enums/CommentTypeEnum.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/wcy/blog/handler/ControllerAdviceHandler.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/wcy/blog/util/HTMLUtils.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/wcy/blog/vo/ResourceVO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/wcy/blog/vo/RoleVO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/wcy/blog/controller/admin/PageAdminController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/wcy/blog/controller/admin/PageAdminController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/wcy/blog/controller/admin/TalkAdminController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/wcy/blog/controller/admin/TalkAdminController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/wcy/blog/controller/admin/UserInfoAdminController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/wcy/blog/controller/admin/UserInfoAdminController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/wcy/blog/controller/user/ArticleUserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/wcy/blog/controller/user/ArticleUserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/wcy/blog/controller/user/CommentUserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/wcy/blog/controller/user/CommentUserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/wcy/blog/controller/user/MessageUserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/wcy/blog/controller/user/MessageUserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/wcy/blog/controller/user/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/wcy/blog/controller/user/UserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/wcy/blog/controller/user/UserInfoController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/wcy/blog/controller/user/UserInfoController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/wcy/blog/dto/ArticlePreviewListDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/wcy/blog/dto/ArticlePreviewListDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/wcy/blog/dto/UserOnlineDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/wcy/blog/dto/UserOnlineDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/wcy/blog/entity/ChatRecord.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/wcy/blog/entity/ChatRecord.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/wcy/blog/entity/Comment.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/wcy/blog/entity/Comment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/wcy/blog/entity/Photo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/wcy/blog/entity/Photo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/wcy/blog/entity/PhotoAlbum.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/wcy/blog/entity/PhotoAlbum.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/wcy/blog/entity/Resource.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/wcy/blog/entity/Resource.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/wcy/blog/entity/Role.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/wcy/blog/entity/Role.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/wcy/blog/entity/RoleMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/wcy/blog/entity/RoleMenu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/wcy/blog/entity/RoleResource.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/wcy/blog/entity/RoleResource.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/wcy/blog/entity/UniqueView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/wcy/blog/entity/UniqueView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/wcy/blog/entity/WebsiteConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/wcy/blog/entity/WebsiteConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/wcy/blog/service/ResourceService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/wcy/blog/service/ResourceService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/wcy/blog/service/RoleService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/wcy/blog/service/RoleService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/wcy/blog/service/impl/ArticleServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/wcy/blog/service/impl/ArticleServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/wcy/blog/service/impl/CommentServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/wcy/blog/service/impl/CommentServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/wcy/blog/service/impl/ResourceServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/wcy/blog/service/impl/ResourceServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/wcy/blog/service/impl/RoleServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/wcy/blog/service/impl/RoleServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/wcy/blog/vo/Result.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/wcy/blog/vo/Result.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/mapper/UserAuthDao.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/mapper/UserAuthDao.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -57,6 +93,9 @@
         <option name="userSettingsFile" value="D:\App_Install\Maven\apache-maven-3.6.3-bin\apache-maven-3.6.3\conf\settings.xml" />
       </MavenGeneralSettings>
     </option>
+  </component>
+  <component name="MavenRunner">
+    <option name="skipTests" value="true" />
   </component>
   <component name="ProjectId" id="2FGE2Xokk5DqQ3nx5SazzGxrHpu" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
@@ -92,13 +131,15 @@
     </key>
   </component>
   <component name="RunManager">
-    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
+    <configuration default="true" type="ArquillianTestNG" factoryName="" nameIsGenerated="true">
       <option name="arquillianRunConfiguration">
         <value>
           <option name="containerStateName" value="" />
         </value>
       </option>
-      <option name="TEST_OBJECT" value="class" />
+      <option name="TEST_OBJECT" value="CLASS" />
+      <properties />
+      <listeners />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -144,7 +185,13 @@
       <workItem from="1666686201126" duration="683000" />
       <workItem from="1666750628683" duration="5321000" />
       <workItem from="1666783848463" duration="4543000" />
-      <workItem from="1666788455657" duration="15555000" />
+      <workItem from="1666788455657" duration="18093000" />
+      <workItem from="1666844796630" duration="1757000" />
+      <workItem from="1666856518925" duration="1053000" />
+      <workItem from="1666858349877" duration="6627000" />
+      <workItem from="1666929845351" duration="5762000" />
+      <workItem from="1666946219431" duration="511000" />
+      <workItem from="1666946743498" duration="6866000" />
     </task>
     <servers />
   </component>
@@ -175,11 +222,11 @@
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="929" y="173" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1080/1920.0.1080.1920@0.0.1920.1080" timestamp="1666584580971" />
-    <state x="2324" y="311" key="#com.intellij.ide.util.MemberChooser" timestamp="1666839815532">
+    <state x="2324" y="311" key="#com.intellij.ide.util.MemberChooser" timestamp="1666944018744">
       <screen x="1920" y="0" width="1080" height="1920" />
     </state>
     <state x="718" y="175" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1080/1920.0.1080.1920@0.0.1920.1080" timestamp="1665738010660" />
-    <state x="2324" y="311" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1080/1920.0.1080.1920@1920.0.1080.1920" timestamp="1666839815532" />
+    <state x="2324" y="311" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1080/1920.0.1080.1920@1920.0.1080.1920" timestamp="1666944018744" />
     <state x="2175" y="831" width="570" height="269" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes" timestamp="1666788232193">
       <screen x="1920" y="0" width="1080" height="1920" />
     </state>
@@ -196,66 +243,66 @@
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
     <state x="687" y="234" key="FileChooserDialogImpl/0.0.1920.1080/1920.0.1080.1920@0.0.1920.1080" timestamp="1665214906037" />
-    <state width="1027" height="1080" key="GridCell.Tab.0.bottom" timestamp="1666838847956">
-      <screen x="1920" y="0" width="1080" height="1920" />
+    <state width="1867" height="506" key="GridCell.Tab.0.bottom" timestamp="1666961885043">
+      <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="1867" height="457" key="GridCell.Tab.0.bottom/0.0.1920.1080/1920.0.1080.1920@0.0.1920.1080" timestamp="1666679690126" />
-    <state width="1027" height="1080" key="GridCell.Tab.0.bottom/0.0.1920.1080/1920.0.1080.1920@1920.0.1080.1920" timestamp="1666838847956" />
-    <state width="1027" height="1080" key="GridCell.Tab.0.center" timestamp="1666838847956">
-      <screen x="1920" y="0" width="1080" height="1920" />
+    <state width="1867" height="506" key="GridCell.Tab.0.bottom/0.0.1920.1080/1920.0.1080.1920@0.0.1920.1080" timestamp="1666961885043" />
+    <state width="1027" height="1305" key="GridCell.Tab.0.bottom/0.0.1920.1080/1920.0.1080.1920@1920.0.1080.1920" timestamp="1666961073522" />
+    <state width="1867" height="506" key="GridCell.Tab.0.center" timestamp="1666961885043">
+      <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="1867" height="457" key="GridCell.Tab.0.center/0.0.1920.1080/1920.0.1080.1920@0.0.1920.1080" timestamp="1666679690126" />
-    <state width="1027" height="1080" key="GridCell.Tab.0.center/0.0.1920.1080/1920.0.1080.1920@1920.0.1080.1920" timestamp="1666838847956" />
-    <state width="1027" height="1080" key="GridCell.Tab.0.left" timestamp="1666838847956">
-      <screen x="1920" y="0" width="1080" height="1920" />
+    <state width="1867" height="506" key="GridCell.Tab.0.center/0.0.1920.1080/1920.0.1080.1920@0.0.1920.1080" timestamp="1666961885043" />
+    <state width="1027" height="1305" key="GridCell.Tab.0.center/0.0.1920.1080/1920.0.1080.1920@1920.0.1080.1920" timestamp="1666961073522" />
+    <state width="1867" height="506" key="GridCell.Tab.0.left" timestamp="1666961885043">
+      <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="1867" height="457" key="GridCell.Tab.0.left/0.0.1920.1080/1920.0.1080.1920@0.0.1920.1080" timestamp="1666679690126" />
-    <state width="1027" height="1080" key="GridCell.Tab.0.left/0.0.1920.1080/1920.0.1080.1920@1920.0.1080.1920" timestamp="1666838847956" />
-    <state width="1027" height="1080" key="GridCell.Tab.0.right" timestamp="1666838847956">
-      <screen x="1920" y="0" width="1080" height="1920" />
+    <state width="1867" height="506" key="GridCell.Tab.0.left/0.0.1920.1080/1920.0.1080.1920@0.0.1920.1080" timestamp="1666961885043" />
+    <state width="1027" height="1305" key="GridCell.Tab.0.left/0.0.1920.1080/1920.0.1080.1920@1920.0.1080.1920" timestamp="1666961073521" />
+    <state width="1867" height="506" key="GridCell.Tab.0.right" timestamp="1666961885043">
+      <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="1867" height="457" key="GridCell.Tab.0.right/0.0.1920.1080/1920.0.1080.1920@0.0.1920.1080" timestamp="1666679690126" />
-    <state width="1027" height="1080" key="GridCell.Tab.0.right/0.0.1920.1080/1920.0.1080.1920@1920.0.1080.1920" timestamp="1666838847956" />
-    <state width="1027" height="1080" key="GridCell.Tab.1.bottom" timestamp="1666838847956">
-      <screen x="1920" y="0" width="1080" height="1920" />
+    <state width="1867" height="506" key="GridCell.Tab.0.right/0.0.1920.1080/1920.0.1080.1920@0.0.1920.1080" timestamp="1666961885043" />
+    <state width="1027" height="1305" key="GridCell.Tab.0.right/0.0.1920.1080/1920.0.1080.1920@1920.0.1080.1920" timestamp="1666961073522" />
+    <state width="1027" height="1305" key="GridCell.Tab.1.bottom" timestamp="1666961879736">
+      <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="1867" height="457" key="GridCell.Tab.1.bottom/0.0.1920.1080/1920.0.1080.1920@0.0.1920.1080" timestamp="1666679690127" />
-    <state width="1027" height="1080" key="GridCell.Tab.1.bottom/0.0.1920.1080/1920.0.1080.1920@1920.0.1080.1920" timestamp="1666838847956" />
-    <state width="1027" height="1080" key="GridCell.Tab.1.center" timestamp="1666838847956">
-      <screen x="1920" y="0" width="1080" height="1920" />
+    <state width="1027" height="1305" key="GridCell.Tab.1.bottom/0.0.1920.1080/1920.0.1080.1920@0.0.1920.1080" timestamp="1666961879736" />
+    <state width="1027" height="1305" key="GridCell.Tab.1.bottom/0.0.1920.1080/1920.0.1080.1920@1920.0.1080.1920" timestamp="1666961073522" />
+    <state width="1027" height="1305" key="GridCell.Tab.1.center" timestamp="1666961879736">
+      <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="1867" height="457" key="GridCell.Tab.1.center/0.0.1920.1080/1920.0.1080.1920@0.0.1920.1080" timestamp="1666679690126" />
-    <state width="1027" height="1080" key="GridCell.Tab.1.center/0.0.1920.1080/1920.0.1080.1920@1920.0.1080.1920" timestamp="1666838847956" />
-    <state width="1027" height="1080" key="GridCell.Tab.1.left" timestamp="1666838847956">
-      <screen x="1920" y="0" width="1080" height="1920" />
+    <state width="1027" height="1305" key="GridCell.Tab.1.center/0.0.1920.1080/1920.0.1080.1920@0.0.1920.1080" timestamp="1666961879736" />
+    <state width="1027" height="1305" key="GridCell.Tab.1.center/0.0.1920.1080/1920.0.1080.1920@1920.0.1080.1920" timestamp="1666961073522" />
+    <state width="1027" height="1305" key="GridCell.Tab.1.left" timestamp="1666961879736">
+      <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="1867" height="457" key="GridCell.Tab.1.left/0.0.1920.1080/1920.0.1080.1920@0.0.1920.1080" timestamp="1666679690126" />
-    <state width="1027" height="1080" key="GridCell.Tab.1.left/0.0.1920.1080/1920.0.1080.1920@1920.0.1080.1920" timestamp="1666838847956" />
-    <state width="1027" height="1080" key="GridCell.Tab.1.right" timestamp="1666838847956">
-      <screen x="1920" y="0" width="1080" height="1920" />
+    <state width="1027" height="1305" key="GridCell.Tab.1.left/0.0.1920.1080/1920.0.1080.1920@0.0.1920.1080" timestamp="1666961879736" />
+    <state width="1027" height="1305" key="GridCell.Tab.1.left/0.0.1920.1080/1920.0.1080.1920@1920.0.1080.1920" timestamp="1666961073522" />
+    <state width="1027" height="1305" key="GridCell.Tab.1.right" timestamp="1666961879736">
+      <screen x="0" y="0" width="1920" height="1080" />
     </state>
-    <state width="1867" height="457" key="GridCell.Tab.1.right/0.0.1920.1080/1920.0.1080.1920@0.0.1920.1080" timestamp="1666679690127" />
-    <state width="1027" height="1080" key="GridCell.Tab.1.right/0.0.1920.1080/1920.0.1080.1920@1920.0.1080.1920" timestamp="1666838847956" />
-    <state width="1027" height="781" key="GridCell.Tab.2.bottom" timestamp="1666793431222">
+    <state width="1027" height="1305" key="GridCell.Tab.1.right/0.0.1920.1080/1920.0.1080.1920@0.0.1920.1080" timestamp="1666961879736" />
+    <state width="1027" height="1305" key="GridCell.Tab.1.right/0.0.1920.1080/1920.0.1080.1920@1920.0.1080.1920" timestamp="1666961073522" />
+    <state width="1027" height="781" key="GridCell.Tab.2.bottom" timestamp="1666844787625">
       <screen x="1920" y="0" width="1080" height="1920" />
     </state>
     <state width="1867" height="651" key="GridCell.Tab.2.bottom/0.0.1920.1080/1920.0.1080.1920@0.0.1920.1080" timestamp="1666662487148" />
-    <state width="1027" height="781" key="GridCell.Tab.2.bottom/0.0.1920.1080/1920.0.1080.1920@1920.0.1080.1920" timestamp="1666793431222" />
-    <state width="1027" height="781" key="GridCell.Tab.2.center" timestamp="1666793431222">
+    <state width="1027" height="781" key="GridCell.Tab.2.bottom/0.0.1920.1080/1920.0.1080.1920@1920.0.1080.1920" timestamp="1666844787625" />
+    <state width="1027" height="781" key="GridCell.Tab.2.center" timestamp="1666844787625">
       <screen x="1920" y="0" width="1080" height="1920" />
     </state>
     <state width="1867" height="651" key="GridCell.Tab.2.center/0.0.1920.1080/1920.0.1080.1920@0.0.1920.1080" timestamp="1666662487148" />
-    <state width="1027" height="781" key="GridCell.Tab.2.center/0.0.1920.1080/1920.0.1080.1920@1920.0.1080.1920" timestamp="1666793431222" />
-    <state width="1027" height="781" key="GridCell.Tab.2.left" timestamp="1666793431221">
+    <state width="1027" height="781" key="GridCell.Tab.2.center/0.0.1920.1080/1920.0.1080.1920@1920.0.1080.1920" timestamp="1666844787625" />
+    <state width="1027" height="781" key="GridCell.Tab.2.left" timestamp="1666844787625">
       <screen x="1920" y="0" width="1080" height="1920" />
     </state>
     <state width="1867" height="651" key="GridCell.Tab.2.left/0.0.1920.1080/1920.0.1080.1920@0.0.1920.1080" timestamp="1666662487148" />
-    <state width="1027" height="781" key="GridCell.Tab.2.left/0.0.1920.1080/1920.0.1080.1920@1920.0.1080.1920" timestamp="1666793431221" />
-    <state width="1027" height="781" key="GridCell.Tab.2.right" timestamp="1666793431222">
+    <state width="1027" height="781" key="GridCell.Tab.2.left/0.0.1920.1080/1920.0.1080.1920@1920.0.1080.1920" timestamp="1666844787625" />
+    <state width="1027" height="781" key="GridCell.Tab.2.right" timestamp="1666844787625">
       <screen x="1920" y="0" width="1080" height="1920" />
     </state>
     <state width="1867" height="651" key="GridCell.Tab.2.right/0.0.1920.1080/1920.0.1080.1920@0.0.1920.1080" timestamp="1666662487148" />
-    <state width="1027" height="781" key="GridCell.Tab.2.right/0.0.1920.1080/1920.0.1080.1920@1920.0.1080.1920" timestamp="1666793431222" />
+    <state width="1027" height="781" key="GridCell.Tab.2.right/0.0.1920.1080/1920.0.1080.1920@1920.0.1080.1920" timestamp="1666844787625" />
     <state width="299" height="593" key="HiddenNamespacesPopup" timestamp="1666581681637">
       <screen x="0" y="0" width="1920" height="1080" />
     </state>
@@ -281,11 +328,6 @@
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/wcy/blog/service/impl/ArticleServiceImpl.java</url>
-          <line>275</line>
-          <option name="timeStamp" value="2" />
-        </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/main/java/com/wcy/blog/service/impl/UserDetailsServiceImpl.java</url>
           <line>88</line>

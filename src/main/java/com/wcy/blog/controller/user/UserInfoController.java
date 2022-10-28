@@ -1,5 +1,6 @@
 package com.wcy.blog.controller.user;
 
+import com.wcy.blog.annotation.OptLog;
 import com.wcy.blog.service.UserInfoService;
 import com.wcy.blog.vo.EmailVO;
 import com.wcy.blog.vo.Result;
@@ -13,6 +14,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+
+import static com.wcy.blog.constant.OptTypeConst.ADD;
+import static com.wcy.blog.constant.OptTypeConst.UPDATE;
 
 /**
  * @author 吴崇远
@@ -28,6 +32,7 @@ public class UserInfoController {
     private UserInfoService userInfoService;
 
     @ApiOperation(value = "更新用户头像", notes = "更新用户头像")
+    @OptLog(optType = UPDATE)
     @ApiImplicitParam(name = "file", value = "用户头像", required = true, dataType = "MultipartFile")
     @PostMapping("/avatar")
     public Result<String> updateUserAvatar(MultipartFile file) {
@@ -35,6 +40,7 @@ public class UserInfoController {
     }
 
     @ApiOperation(value = "绑定用户邮箱", notes = "绑定用户邮箱")
+    @OptLog(optType = UPDATE)
     @PostMapping("/email")
     public Result<?> bindUserEmail(@Valid @RequestBody EmailVO emailVO) {
         userInfoService.bindUserEmail(emailVO);
@@ -42,6 +48,7 @@ public class UserInfoController {
     }
 
     @ApiOperation(value = "更新用户信息", notes = "更新用户信息")
+    @OptLog(optType = UPDATE)
     @PutMapping("/info")
     public Result<?> updateUserInfo(@Valid @RequestBody UserInfoVO userInfoVO) {
         userInfoService.updateUserInfo(userInfoVO);
