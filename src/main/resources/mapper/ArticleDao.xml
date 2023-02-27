@@ -220,35 +220,37 @@
 
 
     <select id="listHomeArticles" resultMap="homeArticlesMap">
-        SELECT article_content,
+        SELECT a.id,
                article_cover,
                article_title,
-               category_id,
-               tc.category_name,
-               ta.create_time,
-               ta.id,
-               is_top,
-               tt.id tag_id,
-               tt.tag_name,
-               `type`
+               SUBSTR(article_content, 1, 500) AS article_content,
+               a.create_time,
+               a.type,
+               a.is_top,
+               a.category_id,
+               category_name,
+               t.id                            AS tag_id,
+               t.tag_name
         FROM (
-                 SELECT article_content,
+                 SELECT id,
                         article_cover,
                         article_title,
-                        category_id,
-                        create_time,
-                        id,
+                        article_content,
+                        type,
                         is_top,
-                        `type`
+                        create_time,
+                        category_id
                  FROM tb_article
                  WHERE is_delete = 0
-                   AND `status` = 1
-                 LIMIT #{current}, #{size}
-             ) ta
-                 LEFT JOIN tb_category tc ON ta.category_id = tc.id
-                 LEFT JOIN tb_article_tag tat ON ta.id = tat.article_id
-                 LEFT JOIN tb_tag tt ON tat.tag_id = tt.id
-                 ORDER BY is_top DESC
+                   AND status = 1
+                 ORDER BY is_top DESC,
+                          create_time DESC,
+                          id DESC
+                 LIMIT #{current} , #{size}
+             ) a
+                 JOIN tb_category c ON a.category_id = c.id
+                 JOIN tb_article_tag atg ON a.id = atg.article_id
+                 JOIN tb_tag t ON t.id = atg.tag_id
     </select>
 
     <select id="listArticleByCondition" resultMap="listArticleByConditionMap">

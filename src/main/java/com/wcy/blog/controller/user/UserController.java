@@ -48,7 +48,6 @@ public class UserController {
     }
 
     @ApiOperation(value = "用户注册", notes = "用户注册")
-    @OptLog(optType = ADD)
     @PostMapping("/register")
     public Result<Object> userRegister(@Valid @RequestBody UserVO userVO) {
         userAuthService.userRegister(userVO);

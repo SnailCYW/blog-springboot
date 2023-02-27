@@ -107,8 +107,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleDao, Article> impleme
 
     @Override
     public List<ArticleHomeDTO> listHomeArticles() {
-        List<ArticleHomeDTO> articleHomeDTOList = articleDao.listHomeArticles(PageUtils.getLimitCurrent(), PageUtils.getSize());
-        return articleHomeDTOList;
+        return articleDao.listHomeArticles(PageUtils.getLimitCurrent(), PageUtils.getSize());
     }
 
     @Override
@@ -148,15 +147,17 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleDao, Article> impleme
         Article last = articleDao.selectOne(new LambdaQueryWrapper<Article>()
                 .select(Article::getArticleCover, Article::getArticleTitle, Article::getId)
                 .eq(Article::getIsDelete, FALSE).eq(Article::getStatus, PUBLIC.getStatus())
-                .lt(Article::getCreateTime, article.getCreateTime())
+                .gt(Article::getCreateTime, article.getCreateTime())
                 .orderByAsc(Article::getCreateTime)
-                .last("limit 1"));
+                .orderByDesc(Article::getId)
+                .last("limit 0,1"));
         Article next = articleDao.selectOne(new LambdaQueryWrapper<Article>()
                 .select(Article::getArticleCover, Article::getArticleTitle, Article::getId)
                 .eq(Article::getIsDelete, FALSE).eq(Article::getStatus, PUBLIC.getStatus())
-                .gt(Article::getCreateTime, article.getCreateTime())
+                .lt(Article::getCreateTime, article.getCreateTime())
                 .orderByDesc(Article::getCreateTime)
-                .last("limit 1"));
+                .orderByDesc(Article::getId)
+                .last("limit 0,1"));
         List<Article> newestArticles = articleDao.selectList(new LambdaQueryWrapper<Article>()
                 .select(Article::getArticleCover, Article::getArticleTitle, Article::getCreateTime, Article::getId)
                 .eq(Article::getIsDelete, FALSE).eq(Article::getStatus, PUBLIC.getStatus())
@@ -219,9 +220,10 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleDao, Article> impleme
                 .in(Article::getId, deleteVO.getIdList()));
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public void deleteArticle(List<Integer> articleIdList) {
-        articleTagDao.delete(new LambdaQueryWrapper<ArticleTag>().eq(ArticleTag::getArticleId, articleIdList));
+        articleTagDao.delete(new LambdaQueryWrapper<ArticleTag>().in(ArticleTag::getArticleId, articleIdList));
         articleDao.deleteBatchIds(articleIdList);
     }
 

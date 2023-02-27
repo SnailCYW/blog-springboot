@@ -4,9 +4,12 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.wcy.blog.dao.RoleResourceDao;
 import com.wcy.blog.dto.LabelOptionDTO;
 import com.wcy.blog.dto.ResourceDTO;
 import com.wcy.blog.entity.Resource;
+import com.wcy.blog.entity.RoleResource;
+import com.wcy.blog.exception.BizException;
 import com.wcy.blog.service.ResourceService;
 import com.wcy.blog.dao.ResourceDao;
 import com.wcy.blog.util.BeanCopyUtils;
@@ -33,6 +36,8 @@ public class ResourceServiceImpl extends ServiceImpl<ResourceDao, Resource> impl
 
     @Autowired
     private ResourceDao resourceDao;
+    @Autowired
+    private RoleResourceDao roleResourceDao;
 
     @Override
     public List<ResourceDTO> listResourcesBack(ConditionVO condition) {
@@ -66,10 +71,23 @@ public class ResourceServiceImpl extends ServiceImpl<ResourceDao, Resource> impl
         this.saveOrUpdate(resource);
     }
 
-    @Transactional(rollbackFor = Exception.class)
     @Override
     public void deleteResource(Integer resourceId) {
-        resourceDao.deleteById(resourceId);
+        // 查询是否有角色关联
+        Integer count = roleResourceDao.selectCount(new LambdaQueryWrapper<RoleResource>()
+                .eq(RoleResource::getResourceId, resourceId));
+        if (count > 0) {
+            throw new BizException("该资源下存在角色");
+        }
+        // 删除子资源
+        List<Integer> resourceIdList = resourceDao.selectList(new LambdaQueryWrapper<Resource>()
+                .select(Resource::getId).
+                        eq(Resource::getParentId, resourceId))
+                .stream()
+                .map(Resource::getId)
+                .collect(Collectors.toList());
+        resourceIdList.add(resourceId);
+        resourceDao.deleteBatchIds(resourceIdList);
     }
 
     @Override

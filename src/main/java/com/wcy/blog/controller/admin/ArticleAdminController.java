@@ -97,7 +97,7 @@ public class ArticleAdminController {
 
     @ApiOperation(value = "修改文章置顶")
     @OptLog(optType = UPDATE)
-    @PostMapping("/top")
+    @PutMapping("/top")
     public Result<?> updateArticleWithTop(@Valid @RequestBody ArticleTopVO articleTopVO) {
         articleService.updateArticleWithTop(articleTopVO);
         return Result.ok();

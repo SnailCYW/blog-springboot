@@ -66,7 +66,6 @@ public class TagServiceImpl extends ServiceImpl<TagDao, Tag> implements TagServi
         return tagDTOList;
     }
 
-    @Transactional(rollbackFor = Exception.class)
     @Override
     public void addOrModifyTags(TagVO tagVO) {
         // 查询标签名是否存在

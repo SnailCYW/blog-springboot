@@ -18,6 +18,6 @@ public class UserAreaDTO {
 
     private String name;
 
-    private Integer value;
+    private Long value;
 
 }

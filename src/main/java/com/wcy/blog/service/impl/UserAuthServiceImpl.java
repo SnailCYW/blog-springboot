@@ -4,6 +4,7 @@ import com.alibaba.fastjson2.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.IdWorker;
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.wcy.blog.constant.CommonConst;
 import com.wcy.blog.dao.UserAuthDao;
@@ -30,8 +31,10 @@ import org.springframework.amqp.core.Message;
 import org.springframework.amqp.core.MessageProperties;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
@@ -40,6 +43,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import static com.wcy.blog.constant.CommonConst.*;
 import static com.wcy.blog.constant.MQPrefixConst.EMAIL_EXCHANGE;
 import static com.wcy.blog.constant.RedisPrefixConst.*;
 import static com.wcy.blog.enums.RoleEnum.USER;
@@ -98,7 +102,7 @@ public class UserAuthServiceImpl extends ServiceImpl<UserAuthDao, UserAuth>
                     userAreaDTOList = visitorArea.entrySet().stream()
                             .map(item -> UserAreaDTO.builder()
                                     .name(item.getKey())
-                                    .value((Integer) item.getValue())
+                                    .value(Long.valueOf(item.getValue().toString()))
                                     .build())
                             .collect(Collectors.toList());
                 }
@@ -151,6 +155,7 @@ public class UserAuthServiceImpl extends ServiceImpl<UserAuthDao, UserAuth>
         redisService.set(USER_CODE_KEY + username, code, CODE_EXPIRE_TIME);
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public void userRegister(UserVO user) {
         // 校验账号是否合法
@@ -207,6 +212,34 @@ public class UserAuthServiceImpl extends ServiceImpl<UserAuthDao, UserAuth>
                 .select(UserAuth::getUsername)
                 .eq(UserAuth::getUsername, user.getUsername()));
         return Objects.nonNull(userAuth);
+    }
+
+
+    /**
+     * 统计用户地区
+     */
+    @Scheduled(cron = "0 0 * * * ?")
+    public void statisticalUserArea() {
+        // 统计用户地域分布
+        Map<String, Long> userAreaMap = userAuthDao.selectList(new LambdaQueryWrapper<UserAuth>().select(UserAuth::getIpSource))
+                .stream()
+                .map(item -> {
+                    if (StringUtils.isNotBlank(item.getIpSource())) {
+                        return item.getIpSource().substring(0, 2)
+                                .replaceAll(PROVINCE, "")
+                                .replaceAll(CITY, "");
+                    }
+                    return UNKNOWN;
+                })
+                .collect(Collectors.groupingBy(item -> item, Collectors.counting()));
+        // 转换格式
+        List<UserAreaDTO> userAreaList = userAreaMap.entrySet().stream()
+                .map(item -> UserAreaDTO.builder()
+                        .name(item.getKey())
+                        .value(item.getValue())
+                        .build())
+                .collect(Collectors.toList());
+        redisService.set(USER_AREA, com.alibaba.fastjson.JSON.toJSONString(userAreaList));
     }
 }
 

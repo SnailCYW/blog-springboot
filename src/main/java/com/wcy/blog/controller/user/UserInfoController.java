@@ -32,7 +32,6 @@ public class UserInfoController {
     private UserInfoService userInfoService;
 
     @ApiOperation(value = "更新用户头像", notes = "更新用户头像")
-    @OptLog(optType = UPDATE)
     @ApiImplicitParam(name = "file", value = "用户头像", required = true, dataType = "MultipartFile")
     @PostMapping("/avatar")
     public Result<String> updateUserAvatar(MultipartFile file) {

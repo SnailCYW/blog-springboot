@@ -125,7 +125,15 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoDao, UserInfo> impl
     @Transactional(rollbackFor = Exception.class)
     @Override
     public String updateUserAvatar(MultipartFile file) {
-        return uploadStrategyContext.executeUploadStrategy(file, AVATAR.getPath());
+        // 头像上传
+        String avatar = uploadStrategyContext.executeUploadStrategy(file, FilePathEnum.AVATAR.getPath());
+        // 更新用户信息
+        UserInfo userInfo = UserInfo.builder()
+                .id(UserUtils.getLoginUser().getUserInfoId())
+                .avatar(avatar)
+                .build();
+        userInfoDao.updateById(userInfo);
+        return avatar;
     }
 
     @Transactional(rollbackFor = Exception.class)
@@ -147,7 +155,6 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoDao, UserInfo> impl
         userAuthDao.updateById(userAuth);
     }
 
-    @Transactional(rollbackFor = Exception.class)
     @Override
     public void updateUserInfo(UserInfoVO userInfoVO) {
         UserInfo userInfo = UserInfo.builder()
